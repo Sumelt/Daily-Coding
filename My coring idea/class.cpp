@@ -23,13 +23,39 @@ class Gf
 		int age;
 		double property;
 	public:
+		static int num;
+		
+		Gf(string, int, double);
+		Gf(){}
+		~Gf()
+		{
+			cout<<"Be deleted"<<endl;
+		}
+		void set(string, int, double);
 		void kiss();
 		void hug(); 
 };
 
+
+Gf::Gf(string test, int test2, double test3)
+{
+	name = test;
+	age = test2;
+	property = test3;
+}
+
+
+void Gf::set(string n, int ag, double pro)
+{
+	name = n;
+	age = ag;
+	property = pro;
+}
+
 void Gf::kiss()
 {
 	cout<<"Kiss you"<<endl;
+	cout<<name<<' '<<age<<' '<<property<<endl;
 }
 
 void Gf::hug()
@@ -37,11 +63,15 @@ void Gf::hug()
 	cout<<"Hug you"<<endl;
 }
 
+int Gf::num = 12;
+
 int main(int argc, char *argv[])
 {
-	Gf test;
-	test.hug();
-	test.kiss();
+	Gf *test = new Gf;
+//	test.hug();
+//	test.kiss();
+	cout<<Gf::num;
+	delete test;
 	return 0;
 }
 
