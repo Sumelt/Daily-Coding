@@ -69,8 +69,7 @@ int count_day(Date mydate, bool flag)
 		for(int i = mydate.month-1; i>=1; i--)
 			sumday+=sgDay[i];
 		if(mydate.month>2&&leap(mydate)) sumday+=1;
-		sumday+=mydate.day;
-				
+		sumday+=mydate.day;				
 	}
 	return sumday;
 }
@@ -90,29 +89,16 @@ int main(int argc, char *argv[])
 	
 	cin>>year[0]>>month[0]>>day[0];
 	cin>>year[1]>>month[1]>>day[1];
-	
-	
-/*
-if(isdigit(year[0]+'0')&&isdigit(year[1]+'0'))
-	{
-		if(!(month[0]>=1&&month[0]<=12&&month[1]>=1&&month[1]<=12))
-			{
-				cout<<"time error!"; 
-				return 0;
-			}
-		else if(!(day[0]>=1&&day[0]<=31&&day[1]>=1&&day[1]<=31))
-		{
-			cout<<"time error!"; 
-			return 0;
-		}
-	}
-	else{
-		cout<<"time error!";
-		return 0;
-	} */
-	 
+		 
 	if(year[0]!=year[1])
 	{
+		if(month[0]>12||month[1]>12||month[0]<1||month[1]<1|| \
+		day[0]>31||day[1]>31||day[0]<1||day[1]<1){
+			cout<<"time error!";
+			return 0;
+		}
+		
+		
 		if(year[1]+month[1]+day[1]<year[0]+month[0]+day[0])
 			{
 				y1.set_values(year[1], month[1], day[1]);
@@ -135,21 +121,8 @@ if(isdigit(year[0]+'0')&&isdigit(year[1]+'0'))
 			
 		printf("%d", subs(y1, true)+subs(y2, false)+sum);
 	}
-	
-/*
-	else if(year[0]==year[1]&&month[0]!=month[1])
-		{
-			int sum = 0;
-			if(abs(month[0]-month[1])>1)
-				for(int i = 1; i<abs(month[0]-month[1]); i++)
-					sum+=sgDay[min(month[0], month[1])+i];
-			if(month[0]< month[1]) sum+=sgDay[month[0]] - day[0];
-			else sum+=sgDay[month[1]] - day[1];
-			cout<<sum;
-		}
-	else if(year[0]==year[1]&&month[0]==month[1]&&day[0]!=day[1])
-		cout<<max(day[0],day[1]) - min(day[0],day[1]);*/	
-	else cout<<"time error!";
+		
+	else  cout<<"time error!";
 	
 	return 0;
 }
