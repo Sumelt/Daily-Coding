@@ -67,11 +67,12 @@ int Gf::num = 12;
 
 int main(int argc, char *argv[])
 {
-	Gf *test = new Gf;
+	//Gf *test = new Gf;
 //	test.hug();
 //	test.kiss();
 	cout<<Gf::num;
-	delete test;
+	//delete test;
+	Gf mygf;
 	return 0;
 }
 
