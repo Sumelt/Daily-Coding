@@ -81,6 +81,22 @@ inline int subs(Date mydate, bool flag)
 	return sum;
 }
 
+bool time_err(int year[], int month[], int day[])
+{
+	if(year[0]>year[1]||month[0]>month[1]||day[0]>day[1]){
+		cout<<"time error!";
+		return false ;
+	}	
+	else return true;
+}
+
+void set_start(int *temp, Date &y1, Date &y2, int year[], int month[], int day[])
+{
+	*temp = year[0];
+	y1.set_values(year[0], month[0], day[0]);
+	y2.set_values(year[1], month[1], day[1]);
+}
+
 int main(int argc, char *argv[])
 {
 	int year[2], month[2], day[2];
@@ -89,40 +105,36 @@ int main(int argc, char *argv[])
 	
 	cin>>year[0]>>month[0]>>day[0];
 	cin>>year[1]>>month[1]>>day[1];
-		 
+	
+	if(!time_err(year, month, day)) return 0;
+	set_start(&temp, y1, y2, year, month, day);	 
 	if(year[0]!=year[1])
-	{
-		if(month[0]>12||month[1]>12||month[0]<1||month[1]<1|| \
-		day[0]>31||day[1]>31||day[0]<1||day[1]<1){
-			cout<<"time error!";
-			return 0;
-		}
-		
-		
-		if(year[1]+month[1]+day[1]<year[0]+month[0]+day[0])
-			{
-				y1.set_values(year[1], month[1], day[1]);
-				y2.set_values(year[0], month[0], day[0]);
-				temp = year[1];
-			}
-		else
-			{
-				y2.set_values(year[1], month[1], day[1]);
-				y1.set_values(year[0], month[0], day[0]);
-				temp = year[0];
-			}
-			
+	{								
 		for(int i = 1; i<abs(y2.tpyear-y1.tpyear); i++)
 			{
 				ctemp.set_values(temp+i, 0 ,0);
 				if(leap(ctemp)) sum+=366;
 				else sum+=365;
-			}
-			
+			}			
 		printf("%d", subs(y1, true)+subs(y2, false)+sum);
 	}
-		
-	else  cout<<"time error!";
 	
+	else if(year[0]==year[1]&&month[0]!=month[1])
+		{
+			int sum = 0;
+			if(abs(month[0]-month[1])>1)
+				for(int i = 1; i<abs(month[0]-month[1]); i++)
+					sum+=sgDay[min(month[0], month[1])+i];
+			if(month[0]< month[1]) sum+=sgDay[month[0]] - day[0]+day[1];
+				else sum+=sgDay[month[1]] - day[1]+day[0];			
+			if(month[0]< 3||month[1]<3) sum+=1;								
+			cout<<sum;
+		}
+	else if(year[0]==year[1]&&month[0]==month[1]&&day[0]!=day[1])
+		cout<<(max(day[0],day[1]) - min(day[0],day[1]));
+		
 	return 0;
 }
+
+
+
