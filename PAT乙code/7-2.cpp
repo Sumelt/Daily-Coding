@@ -2,7 +2,8 @@
 
 * @Author: Su
 
-* @Description:
+* @Description: 用string对象处理日期会溢出，第一点数据很大，改用 sprintf是个很
+	聪明的办法 
 
 * @Creath Date: 
 
@@ -58,33 +59,15 @@ inline void Schedule ::prin()
 
 bool Schedule :: operator < (const Schedule & s2)
 {
-	string str1, str2;
-	str1 = to_string(year)+to_string(month)+to_string(day)+to_string(hour)\
-	+to_string(minute)+to_string(second);
+	char str1[15], str2[15];
+	sprintf(str1, "%04d%02d%02d%02d%02d%02d", year, month, day\
+ 	,hour, minute, second);
+ 	sprintf(str2, "%04d%02d%02d%02d%02d%02d", s2.year, s2.month, s2.day\
+  	, s2.hour, s2.minute, s2.second);
 	
-	str2 = to_string(s2.year)+to_string(s2.month)+to_string(s2.day)\
-	+to_string(s2.hour)+to_string(s2.minute)+to_string(s2.second);
 	
-	cout<<str1<<endl<<str2;
-	
-	if(str1<str2) return true;
-		else return false;
-	
-/*
-str1 = to_string(year)+to_string(month)+to_string(day);
-	str2 = to_string(s2.year)+to_string(s2.month)+to_string(s2.day);
-	if(str1<str2) return true;
-	else if(str1==str2)
-	{
-		str1.clear();
-		str2.clear();
-		str1 = to_string(hour)+to_string(minute)+to_string(second);
-		str2 = to_string(s2.hour)+to_string(s2.minute)+to_string(s2.second);
-		if(str1<str2) return true;
-		else return false;
-	}
-	else return false;*/
-	
+	if(atof(str1)<atof(str2)) return true;
+		else return false;	
 }
 
 int main(int argc, char *argv[])
