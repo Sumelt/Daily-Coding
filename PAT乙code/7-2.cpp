@@ -58,29 +58,33 @@ inline void Schedule ::prin()
 
 bool Schedule :: operator < (const Schedule & s2)
 {
-	if(year<s2.year) return true;
-	else if(year==s2.year){
-		if(month<s2.month) return true;
-		else if(month==s2.month){
-			if(day<s2.day) return true;
-			else if(day==s2.day){
-				if(hour<s2.hour) return true;
-				else if(hour==s2.hour){
-					if(minute<s2.minute) return true;
-					else if(minute==s2.minute){
-						if(second<s2.second) return true;
-						 else if(second==s2.second) return true;
-						 	else false;
-					}
-					else false;
-				}
-				else false;
-			}
-			else false;
-		}
-		else false;
+	string str1, str2;
+	str1 = to_string(year)+to_string(month)+to_string(day)+to_string(hour)\
+	+to_string(minute)+to_string(second);
+	
+	str2 = to_string(s2.year)+to_string(s2.month)+to_string(s2.day)\
+	+to_string(s2.hour)+to_string(s2.minute)+to_string(s2.second);
+	
+	cout<<str1<<endl<<str2;
+	
+	if(str1<str2) return true;
+		else return false;
+	
+/*
+str1 = to_string(year)+to_string(month)+to_string(day);
+	str2 = to_string(s2.year)+to_string(s2.month)+to_string(s2.day);
+	if(str1<str2) return true;
+	else if(str1==str2)
+	{
+		str1.clear();
+		str2.clear();
+		str1 = to_string(hour)+to_string(minute)+to_string(second);
+		str2 = to_string(s2.hour)+to_string(s2.minute)+to_string(s2.second);
+		if(str1<str2) return true;
+		else return false;
 	}
-	else false;
+	else return false;*/
+	
 }
 
 int main(int argc, char *argv[])
@@ -94,9 +98,12 @@ int main(int argc, char *argv[])
 		cin>>id;
 		if(!id) break;
 		scanf("%d/%d/%d %d:%d:%d", &y, &m, &d, &h, &mu, &sec);
-		if(!count++) min_sch.set_values(id, y, m, d, h, mu, sec);
-			else input_sch.set_values(id, y, m, d, h, mu, sec);
-		if(!(min_sch<input_sch))  min_sch = input_sch;
+		if(!count++){
+			 min_sch.set_values(id, y, m, d, h, mu, sec);
+			 input_sch = min_sch;
+		}
+		else input_sch.set_values(id, y, m, d, h, mu, sec);
+		if(input_sch<min_sch)  min_sch = input_sch;
 	}
 	
 	if(count){
@@ -106,4 +113,3 @@ int main(int argc, char *argv[])
 		
 	return 0;
 }
-
