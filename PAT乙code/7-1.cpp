@@ -27,12 +27,23 @@ class Date{
 		int day;
 	public:
 		int tpyear;
-		void set_values (int, int, int);	
+		void set_values (int, int, int);
+		Date (int, int, int);
+		Date(){}
 		friend int count_day(Date, bool);
 		friend bool leap(Date);
 		friend int subs(int, int, Date, bool);
 	
 };
+
+Date::Date(int y, int m, int d)
+{
+	year = y;
+	month = m;
+	day = d;
+	tpyear = y;	
+}
+
 
 void Date::set_values(int y, int m, int d)
 {
@@ -90,24 +101,30 @@ bool time_err(int year[], int month[], int day[])
 	else return true;
 }
 
+/*
 void set_start(int *temp, Date &y1, Date &y2, int year[], int month[], int day[])
 {
 	*temp = year[0];
 	y1.set_values(year[0], month[0], day[0]);
 	y2.set_values(year[1], month[1], day[1]);
-}
+}*/
 
 int main(int argc, char *argv[])
 {
 	int year[2], month[2], day[2];
-	Date y1, y2, ctemp;
+	
 	int sum = 0, temp;
 	
 	cin>>year[0]>>month[0]>>day[0];
 	cin>>year[1]>>month[1]>>day[1];
 	
 	if(!time_err(year, month, day)) return 0;
-	set_start(&temp, y1, y2, year, month, day);	 
+	//set_start(&temp, y1, y2, year, month, day);
+	Date y1(year[0], month[0], day[0]); 
+	Date y2(year[1], month[1], day[1]);//¹¹Ôìº¯Êı 
+	Date ctemp;  
+	temp = year[0];
+		 
 	if(year[0]!=year[1])
 	{								
 		for(int i = 1; i<abs(y2.tpyear-y1.tpyear); i++)
