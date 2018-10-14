@@ -2,7 +2,7 @@
 
 * @Author: Su
 
-* @Description: 减而治之 
+* @Description: 二分递归
 
 * @Creath Date:
 
@@ -16,31 +16,19 @@
 
 using namespace std;
 
-myswap(int *A, int L, int R)
-{
-	A[L] = A[L]+A[R];
-	A[R] = A[L] - A[R];
-	A[L] = A[L] - A[R];
-}
+static int sum = 0;
 
-void myReverse(int *A, int L, int R)
+int myadd(int *A, int L, int R)
 {
-	
-	if(L>R||(A+L)==(A+R)) return ; //same address prove is odd 
-	else{
-		myswap(A, L, R);
-		myReverse(A, L+1, R-1);		
-	}
-	 
+	if(L==R) return A[L];
+	else 
+		return myadd(A, L, (L+R)/2)+myadd(A, (L+R)/2+1, R);
 }
-
 int main(int argc, char *argv[])
 {
 	int indx = 6;
 	int array[indx] = {1, 2, 3, 4, 5, 6};
-	myReverse(array, 0, indx-1);
-	for(int i =0; i<indx; i++)
-		cout<<array[i]<<' ';
+	printf("%d",myadd(array, 0, indx-1));
 	return 0;
 }
 
