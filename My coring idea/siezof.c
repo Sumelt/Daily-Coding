@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
 	int array[2]={
 		1,2
 	};
-	printf("%d",sizeof array[0]); //one element length 
-		printf("%d",sizeof array);//all array length 
+	printf("%d\n",sizeof array[0]); //one element length 
+	printf("%d",sizeof array);//all array length 
 	puts("\n");
 	return 0;
 }
