@@ -1,0 +1,1 @@
+del .\\*.exe /f /q & del .\\*.o /f /q
