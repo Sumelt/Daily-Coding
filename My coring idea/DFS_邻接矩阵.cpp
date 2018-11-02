@@ -24,7 +24,7 @@ void DFS(int i, int deep)
 	
 	for(int j = 0; j<n; j++)
 	{
-		if(vis[j]==false&&G[i][j]!=0)  //访问下一个节点 
+		if(vis[j]==false&&G[i][j]!=INF)  //访问下一个节点 
 			{
 				printf("both of them: %d %d have connect\n",i, j);
 				DFS(j, deep+1);
