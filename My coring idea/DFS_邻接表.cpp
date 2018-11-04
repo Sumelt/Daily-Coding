@@ -21,7 +21,7 @@ int DFS(int i, int dept)
 {
 	vis[i] = true;
 	
-	for(int j = 0; j<ary[j].size(); j++)
+	for(int j = 0; j<ary[i].size(); j++)
 	{
 		int v = ary[i][j]; //获得该行的列的值 ，该列下次又作为行，不断递归寻找最深的 度 
 		if(vis[v]==false)
