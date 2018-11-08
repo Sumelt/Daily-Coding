@@ -36,12 +36,10 @@ int main(int argc, char *argv[])
 	int numHigh, checkCity;
 	int city1, city2, count = 0;
 	
-	//cin>>numCity >>numHigh >>checkCity;
 	scanf("%d %d %d",&numCity, &numHigh, &checkCity);
 	
 	for(int i = 0; i<numHigh; i++)
 	{
-		//cin>>city1 >>city2;
 		scanf("%d %d", &city1, &city2);
 		G[city1][city2] = city2;
 		G[city2][city1] = city1;
