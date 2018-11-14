@@ -13,10 +13,10 @@
 using namespace std; //±ê×¼STL 
 int main(int argc, char *argv[])
 {
-	vector pp[20]; 
-	vector <int> array;
-	vector <vector<int> > array2;
-	vector <int> array3[100];
+//	vector pp[20]; 
+//	vector <int> array;
+//	vector <vector<int> > array2;
+//	vector <int> array3[100];
 	//for(int i = 0; i<5; i++)
 //	{
 //		array.push_back(i);
@@ -38,7 +38,9 @@ int main(int argc, char *argv[])
 //	cout <<endl <<array.size();
 //	array.clear();
 //	cout <<endl <<array.size();
-	cout<<array3[1].size();
+	//cout<<array3[1].size();
+	vector<int>ary(5);
+	cout<<ary.size();
 	return 0;
 }
 
