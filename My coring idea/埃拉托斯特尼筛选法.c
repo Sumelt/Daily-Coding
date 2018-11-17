@@ -14,16 +14,21 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <time.h>
+
+#define maxn 20000
+
 int main(int argc, char *argv[])
 {
 	int N;
 	int evencount = 0;
-	int oddcount = 0;
-	int count;
+	int oddcount = evencount;
+	int count, prmN = 0;
 	int i,j;
+	
 	puts("Please input a number list to range");	
 	scanf("%d",&N);
-	bool array[20000] = {0};
+	bool array[maxn] = {0};
+	int prime[maxn] = {0};
 	time_t begin,end;
 	
 	
@@ -38,38 +43,26 @@ int main(int argc, char *argv[])
 		evencount++;
 	}
 	printf("eve number: %d\n",evencount);
-	oddcount = N-evencount-1;
+	oddcount = N-evencount;
 	printf("odd number: %d\n",oddcount);
 	count = oddcount;
 	
 	begin = clock();
-	while(count>0)
+
+	for(i = 2; i<N; i++)
 	{
-		for(i=N;i>2;i--)
-		{
-			if(array[i]==false)
-			{
-				j = i-1;
-				while(j>2)
-				{
-						if(i%j==0)
-						{
-							array[i] = true;
-							//array[j] = true;
-						}					
-					j--;	
-						
-				}
-				count--;
-			}
-		}
+		if(array[i]==false)
+			prime[prmN++] = i;
+		for(j = i+i; j<N; j +=i )
+			array[j] = true;
+			
 	}
+
 	end = clock();
 	
 	printf("The prime number between 2 and %d is: ",N);
-	for(i=2;i<N+1;i++)
-		if(array[i]==false)
-			printf("%d ",i);
+	for(i=0;i<prmN;i++)
+			printf("%d ",prime[i]);
 	putchar('\n');
 	if(array[N]==false)
 		printf("%d is a primer number\n",N);
