@@ -66,12 +66,17 @@ void Insert(Node &root, int newData)
 }
 
 
+
 /**此建树非完全二叉树，只是不断在右节点不断增加子节点*/
 Node CreateTree(int a[], int n)
 {
 	Node root = NULL;
 	for(int i = 0; i<n; i++)
-		Insert(root, *(a+i));
+		{
+			//if(i!=0)cout<<root->data<<endl;		
+			Insert(root, *(a+i));
+				
+		}
 	return root; 
 }
 
@@ -160,11 +165,12 @@ Node LayerCreate(int preL, int preR, int inL, int inR)
 int main(int argc, char *argv[])
 {
 	int array[] = {1,2,3,4,5,6};
-	//Node tree = CreateTree(array, (sizeof array /sizeof array[0]) );
+	Node tree = CreateTree(array, (sizeof array /sizeof array[0]) );
 	//preorder(tree);
 	//Layerorder(tree);
-	Node tree = LayerCreate(0, 5, 0, 5);
-	//Layerorder(tree);
+	//Node tree = LayerCreate(0, 5, 0, 5);
+	Layerorder(tree);
+	cout<<endl;
 	postorder(tree);
 	return 0;
 }
