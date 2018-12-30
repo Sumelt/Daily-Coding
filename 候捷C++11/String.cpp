@@ -12,12 +12,19 @@
 #include <string.h>
 #include "String.h"
 
-class ostream;
+using namespace std;
+
+inline ostream& operator << (ostream& os, const String& str)
+{
+	os <<str.get_c_str();
+	return os;
+}
 
 int main(int argc, char *argv[])
 {
-	String *p = new String("Hello");
-	delete p;
+	String p("Hello");
+	cout << p; 
+	//delete p;
 	return 0;
 }
 
@@ -57,12 +64,7 @@ inline String::~String()
 	delete[] m_data;
 }
 
-inline ostream& operator << (ostream& os, const String& str)
-{
-	os<< str.get_c_str();
-	return os;
-}
 
-String *p = new String[3];
-delete[] p;
+
+
 
