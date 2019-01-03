@@ -44,6 +44,7 @@ class Book : public LibMat
 	virtual print(){
 			cout<<"Book::print() !"<<endl;
 		}
+	Book& operator=( const Book& );
 	const string title() const { return _title; }
 	const string author() const { return _author; }
 	
@@ -51,6 +52,13 @@ class Book : public LibMat
 		string _title;
 		string _author;	
 };
+
+Book& Book::operator=( const Book &rhs)
+{
+	if( this != &rhs)
+		LibMat::operator=(rhs); //magical
+	return *this;
+}
 
 class AudioBook : public Book
 {
@@ -106,12 +114,16 @@ void PrintMessage(LibMat &mat)
 int main(int argc, char *argv[])
 {
 	//LibMat tmp;
-	Magazine tmp( "Essentail C++", " Hou Jie" );
+	//Magazine tmp( "Essentail C++", " Hou Jie" );
 	//AudioBook tmp( "Essentail C++", " Hou Jie", " Melt" );
-	PrintMessage(tmp);
+	Book tp1( "Essentail C++", " Hou Jie" );
+	//LibMat::operator=();
+	Book tp2 = tp1;
+	PrintMessage(tp2);
 	
 	return 0;
 }
+
 
 
 
