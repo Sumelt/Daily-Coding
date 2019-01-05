@@ -9,6 +9,7 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
+#include <algorithm>
 #include <string>
 using namespace std;
 
@@ -20,8 +21,8 @@ class BinaryTree;
 /*-------------------class BinaryTree---------------------------------*/
 template<typename elemType> 
 class BinaryTree{
+
 	public:
-		//friend class BTnode<elemType>;
 		BinaryTree();
 		BinaryTree( const BinaryTree& );
 		~BinaryTree();
@@ -36,8 +37,7 @@ class BinaryTree{
 	private:
 		BTnode<elemType> *_root;
 		void copy( BTnode<elemType> *tar, BTnode<elemType> *src );
-		void clear( BTnode<elemType>* );
-		
+		void clear( BTnode<elemType>* );		
 };
 
 template<typename elemType> 
@@ -140,8 +140,10 @@ void BinaryTree<elemType>::
 template<typename valType>
 class BTnode{
 	
-	public:
-		friend class BinaryTree<valType>;
+	friend class BinaryTree<valType>;
+	
+	public:		
+		BTnode( const valType &val );
 		void insert_val( const valType& );
 		static void lchild_leaf( BTnode*, BTnode* );
 		void remove_val( const valType&, valType*& );
@@ -156,6 +158,15 @@ class BTnode{
 		BTnode *_rchild;
 		
 };
+
+template <typename valType>
+inline BTnode<valType>::
+	BTnode( const valType &val )
+    : _val( val )
+	{ 
+		_cnt = 1;
+		_lchild = _rchild = 0; 
+	}
 
 template<typename valType>
 void BTnode<valType>::
@@ -264,11 +275,7 @@ inline void display_val( BTnode<valType> *pt, ostream &os )
 /*-----------------------main-------------------------------*/
 int main(int argc, char *argv[])
 {
-	BinaryTree<string> bt;
-	bt.insert("pig");
-	bt.insert("eey");
-	bt.insert("roo");
-	bt.preorder();
+	//BinaryTree<string> bt;
 	
 	return 0;
 }
