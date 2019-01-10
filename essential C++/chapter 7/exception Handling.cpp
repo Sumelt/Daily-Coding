@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------
+,/*----------------------------------------------------------------
 
 * @Author: Su
 
@@ -9,6 +9,7 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
+#include <sstream>
 using namespace std;
 static bool flag = 0;
 
@@ -59,6 +60,16 @@ int main(int argc, char *argv[])
 	myexception_handing();
 	return 0;
 }
+
+//const char* iterator_overflow::what() const
+//{
+//	ostringstream ex_msg;
+//	static string msg;
+//	ex_msg << "error : current index" <<_index;
+//	
+//	msg = ex_msg.str();
+//	return msg.c_str();
+//}
 
 
 
