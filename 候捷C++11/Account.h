@@ -10,7 +10,6 @@
 
 #ifndef SOMETHING_H
 #define SOMETHING_H
-
 class Account {
 	
 	public:
