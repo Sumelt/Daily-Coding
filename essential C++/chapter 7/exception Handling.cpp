@@ -54,7 +54,6 @@ int myexception_handing()
 	
 	return erro_number;
 }
-
 int main(int argc, char *argv[])
 {
 	myexception_handing();
