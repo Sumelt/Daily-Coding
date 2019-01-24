@@ -52,18 +52,27 @@ int main(int argc, char *argv[])
 //	str = c_str;
 //	string str2 = str + c_str;
 
-	const int array[][3] = { {1,3,5}, {6, 7, 8} };
-	for( auto &inxi : array )
-		for( auto inxj : inxi)
-			cout << inxj<<' ';
-
-	for( auto &inxi : array )
-		for( auto inxj = begin( inxi ); inxj != end( inxi ); inxj++ )
-			cout <<*inxj <<' ' ;
+//	const int array[][3] = { {1,3,5}, {6, 7, 8} };
+//	for( auto &inxi : array )
+//		for( auto inxj : inxi)
+//			cout << inxj<<' ';
+//
+//	for( auto &inxi : array )
+//		for( auto inxj = begin( inxi ); inxj != end( inxi ); inxj++ )
+//			cout <<*inxj <<' ' ;
 			
-	using int_array = int[4];
-	typedef int int_array[4]; //int_array->int_array[4][4] 
-	
+//	using int_array = int[4];
+//	typedef int int_array[4]; //int_array->int_array[4][4] 
+//	int a = 1;
+//	a<<=8;
+//	cout <<sizeof(string); 
+//	decltype(*p)->int&
+//	decltype(&p)->int** 
+	const char c = '2';
+	const char *ptr = &c;
+	char *p = const_cast<char*>(ptr);
+	*p = '3';
+	cout <<c;
 	return 0;
 }
 
