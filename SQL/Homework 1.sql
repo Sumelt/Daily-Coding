@@ -17,10 +17,9 @@ start transaction;
 	insert into addressbook values(123, 'Melt', 'foshan', '17xxx', '93xx.@outlook.com', '1024');
 commit;
 
--- 1.3
--- drop table addressbook;
-
 -- version
 select *
 	from addressbook;
-    
+
+-- 1.3
+-- 	drop table addressbook;
