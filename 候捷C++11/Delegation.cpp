@@ -49,7 +49,8 @@ String::~String()
 
 int main(int argc, char *argv[])
 {
-	String* T = new String();
+	String *T = new String();
+	String pk(T);
 	T->print();
 	
 	return 0;
