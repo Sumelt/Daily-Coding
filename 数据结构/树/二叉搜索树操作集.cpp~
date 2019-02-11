@@ -45,7 +45,9 @@ void Insert(Node &root, int newData)
 	}
 	if(root->data >newData)
 		Insert(root->L, newData);
-	else Insert(root->R, newData);
+	else if(root->data <newData) 
+		Insert(root->R, newData);
+	else return; //已经存在相同节点， 
 	
 }
 
@@ -89,4 +91,5 @@ int main(int argc, char *argv[])
 	Layerorder(CreateTree(array, 7));
 	return 0;
 }
+
 

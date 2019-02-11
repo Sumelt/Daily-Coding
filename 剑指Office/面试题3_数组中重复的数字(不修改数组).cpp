@@ -44,7 +44,7 @@ int getDuplication( const int *numbers, int length )
 
 int main(int argc, char *argv[])
 {
-	int array[] = { 2, 3, 5, 4, 3, 2, 6, 7 };
+	int array[] = { 2, 3, 5, 4, 2, 2, 6, 7 };
 	cout << getDuplication( array, sizeof( array )/sizeof( *array ));
 	return 0;
 }
