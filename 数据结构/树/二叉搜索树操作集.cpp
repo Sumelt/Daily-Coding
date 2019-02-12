@@ -21,9 +21,11 @@ struct node{
 	int Layer;
 	Node L;
 	Node R;
+	Node Fnode; //记录该节点的父节点 
 	node(int mydata){
 		L = NULL;
 		R = NULL;
+		Fnode = NULL;
 		data = mydata;
 	}
 };
@@ -51,6 +53,14 @@ void Insert(Node &root, int newData)
 	
 }
 
+/**创建二叉搜索树**/
+Node CreateTree(int a[], int n)
+{
+	Node root = NULL;
+	for(int i = 0; i<n; i++)
+		Insert(root, *(a+i));
+	return root; 
+}
 
 /**层序遍历**/
 void Layerorder(Node nodetree)
@@ -76,19 +86,76 @@ void Layerorder(Node nodetree)
 	}
 }
 
-/**创建二叉搜索树**/
-Node CreateTree(int a[], int n)
+node* findMax( node* root )
 {
-	Node root = NULL;
-	for(int i = 0; i<n; i++)
-		Insert(root, *(a+i));
-	return root; 
+	node *temp = NULL;
+	while( root->R != NULL)
+	{
+		temp = root;
+		root = root->R;
+		root->Fnode = temp;
+	}
+		
+	return root;
+}
+
+node* findMin( node* root )
+{
+	node *temp = NULL;
+	while( root->L != NULL )
+	{
+		temp = root;
+		root = root->L;
+		root->Fnode = temp;
+	}
+ 		
+	return root;
+}
+
+void deleteNode( node* &root, int x )
+{
+	if( root == NULL )return;
+	if( root->data == x )
+	{
+		if( root->R == NULL && root->L == NULL )
+			root = NULL;
+		else if( root->L )
+		{
+			node* pre = findMax( root->L );
+			root->data = pre->data;
+			//deleteNode( root->L, pre->data );
+			if( pre->L )
+				pre->Fnode->R = pre->L; //该节点只有左子树 
+			root->L = NULL; //把该节点的左节点指向NULL	
+			delete pre; //该节点是叶节点或者是有左节点 
+			 
+		}
+		else
+		{
+			node* next = findMin( root->R );
+			root->data = next->data;
+			//deleteNode( root->R, next->data );
+			if( next->R )
+				next->Fnode->L = next->R; //该节点只有右子树
+			root->R = NULL; 
+			delete next; //该节点是叶节点或者是有右节点 
+						
+		}
+	}
+	else if( root->data > x )
+		deleteNode( root->L, x );
+	else deleteNode( root->R, x );
 }
 
 int main(int argc, char *argv[])
 {
-	int array[] = {5, 3, 7, 4, 2, 8, 6};
-	Layerorder(CreateTree(array, 7));
+	int array[] = {5, 1, 8, 0, 3, 6, 9, 2, 4, 7};
+	Node root = CreateTree(array, sizeof( array )/sizeof( *array ));
+	Layerorder( root );
+	cout << endl;
+	deleteNode( root, 6 );
+	Layerorder( root );
+	
 	return 0;
 }
 

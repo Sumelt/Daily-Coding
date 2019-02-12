@@ -60,8 +60,8 @@ void Insert(Node &root, int newData)
 		return;
 	}
 	if(root->L==NULL)
-		Insert(root->L, newData);
-	else Insert(root->R, newData);
+		Insert(root->L, newData); //只插入一次左节点 后续都不会为空了 
+	else Insert(root->R, newData); //后续不断向右节点插入 
 	
 }
 
@@ -72,11 +72,9 @@ Node CreateTree(int a[], int n)
 {
 	Node root = NULL;
 	for(int i = 0; i<n; i++)
-		{
-			//if(i!=0)cout<<root->data<<endl;		
-			Insert(root, *(a+i));
-				
-		}
+	{		
+		Insert(root, *(a+i));				
+	}
 	return root; 
 }
 
