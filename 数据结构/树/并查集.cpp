@@ -34,7 +34,6 @@ void Union( setType *Set, int value1, int value2 )
 {
 	int root1 = Find( Set, value1 );
 	int root2 = Find( Set, value2 );
-	//cout << root1 << ' ' << root2;
 	if( root1 != -1 && root2 != -1 && root2 != root1 )
 		Set[ root2 ].parentIndx = root1; //把一个集合的根节点的父亲下标设置为另一个集合的父亲下标 
 }
