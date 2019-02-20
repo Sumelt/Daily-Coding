@@ -56,8 +56,9 @@ public:
     {
     	if( this == &hp)
     		return *this;
+		auto newp= new std::string( *hp.ps ); //keep saft
 		delete ps;
-		ps = new std::string( *hp.ps );
+		ps = newp;
     	i = hp.i;
     	return *this;
 	}
@@ -106,14 +107,14 @@ private:
     int i = 0;
 };
 
-
 int main()
 {
 //	HasPtr HasPtrA("A");
 //	HasPtr HasPtrB("B");
 //	HasPtrA = HasPtrB;
 	int N = 3;
-	int  &&t = N * 2;
+	int i;
+	//int  &&t = N * 2;
     return 0;
 }
 
