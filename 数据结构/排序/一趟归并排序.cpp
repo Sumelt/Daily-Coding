@@ -35,21 +35,10 @@ void Merge( int *array, int Lindex, int Rindex, int Rend )
 	delete tempArray;
 }
 
-//递归
-void _Merge( int *array, int Lindex, int Rindex, int Rend )
-{
-	
-}
-
-void sortMer( int *array, int Lindex, int Rindex )
-{
-	
-}
-
 int main(int argc, char *argv[])
 {
-	int array[]	= {	66, 33, 12, 64, 57, 27, 18 };
-	Merge( array, 0, 3, sizeof(array)/sizeof(*array)-1 );
+	int array[]	= {	12, 99, 77 };
+	Merge( array, 0, 1, sizeof(array)/sizeof(*array)-1 );
 	auto start = begin( array );
 	auto last = end( array );
 	while( start != last )

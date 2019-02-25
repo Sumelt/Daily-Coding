@@ -7,109 +7,72 @@
 * @Creath Date:
 
 ----------------------------------------------------------------*/
+#include <iostream>
+#include <cstring>
+#include <ctime>
+using namespace std;
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h> 
-#include <time.h>
+//标记冒泡 
+void BubbleSort( char *array, int N )
+{
+	for( int i = 0; i < N - 1; ++i ) //循环 N -1 次 
+	{
+		bool flag = false; //第一遍扫描  标志位若没有发生改变 表示 序列是有序的 
+		for( int j = 0; j < N - 1 - i; ++j ) // N - 1防止 最后 + 1 溢出 
+		{
+			if( array[ j ] > array[ j+1 ] )
+			{
+				swap( array[ j ], array[ j+1 ] );
+				flag = true;
+			}			
+		}
+		if( !flag ) break;
+	}	
+}
 
-short how_count_lastmax = 0;
-short how_count_firstmin = 0;
-short how_count = 0;
-clock_t begin, end;
-double  cost = 0;
-bool flag;
+//鸡尾酒冒泡 
+void CocktailSort( char *array, int N )
+{
+	int count = N;
+	int Lindex = 0;
+
+	for( int i = 1; i < N - 2; ++i )
+	{   
+		int j = Lindex;
+		for( ; j < N - 1 - i; ++j ) //较大已经排好 放到最后一位
+		{
+			if( array[ j ] > array[ j+1 ] )
+			{
+				swap( array[ j ], array[ j+1 ] );
+			}			
+		}
+
+		for( int i = j; i > Lindex; --i ) //较小已经排好 放到第一位
+		{
+			if( array[ i ] < array[ i-1 ] )
+			{
+				swap( array[ i ], array[ i-1 ] );
+			}			
+		}
+		 ++Lindex; 
+	}
+
+}
 
 int main(int argc, char *argv[])
 {
-	char array[10] = {'2','5','9','1','3','8','6','0','7','4'};
-	char array1[10] = {'0','1','2','3','4','5','6','7','8','9'};
-	short count = 10;
-	char temp;
-	int m = 0,i=0;	
-	//begin = clock();
-	 //鸡尾酒冒泡 
-	while(count>m)
-	{
-		
-		for(int j = m; j< count-1; j++)
-			{
-				if(array[j]>array[j+1])
-				{
-					temp = array[j];
-					array[j] = array[j+1];
-					array[j+1] =  temp;
-					how_count_lastmax++;
-				}
-					
-			}
-			count--;
-		for(int j = count-1; j>m; j--)
-			{
-				if(array[j]<array[j-1])
-				{
-					temp = array[j];
-					array[j] = array[j-1];
-					array[j-1] =  temp;
-					how_count_firstmin++;
-				}
-					
-			}
-			m++;
-	}
+	char array[] = {'2','5','9','1','3','8','6','0','7','4'};
+	CocktailSort( array, sizeof( array )/ sizeof( *array ) );
 	
-	//end = clock();
+	auto start = begin( array );
+	auto last = end( array );
+	while( start != last )
+		cout << *start++ << ' ';
 	
-	//cost =  (double)(end - begin)/ CLOCKS_PER_SEC;
-	how_count = how_count_lastmax + how_count_firstmin;	
-  	while(i!=10)		
-		{
-			printf("%c",array[i]);
-			i++;
-		}
-	putchar('\n');	
+/*
 	printf("cycle lastmax number: %d\n",how_count_lastmax);
 	printf("cycle lastmin number: %d\n",how_count_firstmin);
-	printf("cycle number: %d\n",how_count);
-	//printf("Cost time: %fms",cost);
-	putchar('\n');
+	printf("cycle number: %d\n", sizeof( array )/ sizeof( *array ) );
+	printf("Cost time: %fms\n",how_count_lastmax - how_count_firstmin );*/
 	return 0;
 }
-
-/*
-	//初级，冒泡 
-	for(int i = 0; i < count-1; i++)
-		for(int j = 0; j< count-i-1; j++)
-			{
-				if(array[j]>array[j+1])
-				{
-					temp = array[j];
-					array[j] = array[j+1];
-					array[j+1] =  temp;
-				}
-					
-			}
-*/
-
-/* 
-	///有标记冒泡 
-	for(int i = 1; i < count; i++)
-	{
-		flag = true;
-		for(int j = 0; j< count-i; j++)
-			{
-				if(array[j]>array[j+1])
-				{
-					temp = array[j];
-					array[j] = array[j+1];
-					array[j+1] =  temp;
-					flag = false;
-					how_count++;
-				}
-					
-			}
-		if(flag)
-			break;
-	}
-	*/	
-
