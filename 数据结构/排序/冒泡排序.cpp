@@ -35,8 +35,8 @@ void CocktailSort( char *array, int N )
 {
 	int count = N;
 	int Lindex = 0;
-
-	for( int i = 1; i < N - 2; ++i )
+	bool flag = false;
+	for( int i = 0; count > 0; ++i, count -= 2 )
 	{   
 		int j = Lindex;
 		for( ; j < N - 1 - i; ++j ) //较大已经排好 放到最后一位
@@ -44,19 +44,17 @@ void CocktailSort( char *array, int N )
 			if( array[ j ] > array[ j+1 ] )
 			{
 				swap( array[ j ], array[ j+1 ] );
+				flag = true;
 			}			
 		}
-
+		if( !flag ) break;
 		for( int i = j; i > Lindex; --i ) //较小已经排好 放到第一位
 		{
 			if( array[ i ] < array[ i-1 ] )
-			{
-				swap( array[ i ], array[ i-1 ] );
-			}			
+				swap( array[ i ], array[ i-1 ] );			
 		}
 		 ++Lindex; 
 	}
-
 }
 
 int main(int argc, char *argv[])
