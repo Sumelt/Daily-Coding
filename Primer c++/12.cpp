@@ -47,6 +47,9 @@ int main(int argc, char *argv[])
 	//cout << ptr << ' ' << *ptr << endl; // 0xa914f0 0
 	//delete ptr;
 	//cout << *ptr; // 11098592
-	p pk( string("HELLO") );
+	//auto ptr = new int[2]{ 1, 23 };
+	//unique_ptr<string>p1(new string("Heelo"));
+	allocator<string> alloc;
+	auto const p = alloc.allocate(3);
 	return 0;
 }
