@@ -26,18 +26,18 @@ int getDuplication( const int *numbers, int length )
 {
 	if( numbers == nullptr || length <= 1 )
 		return -1;
-	int start = 1;
-	int end = length - 1;	
+	int start = 1; //区间的开始 
+	int end = length - 1;	//区间的结束 
 	while( end >= start )
 	{
-		int mid = (( end - start )>>1) + start;
-		int count = RangeCount( numbers, length, start, mid );
-		if( end == start )
-			if( count > 1 ) return start;
+		int mid = (( end - start )>>1) + start; //获得中间的位置 
+		int count = RangeCount( numbers, length, start, mid ); //统计该区间内的数字个数 
+		if( end == start ) //区间内只有一个值 
+			if( count > 1 ) return start; //该区间的元素个数比 1 还大 一定是重复元素 
 			else break;
-		if( count > ( mid - start + 1 ))
-			end = mid;
-		else start = mid + 1;
+		if( count > ( mid - start + 1 )) //该区间的元素个数大于区间个数 
+			end = mid; //重复数字一定在本区间内  缩小区间 
+		else start = mid + 1; //否则在另外一个区间 这里存在 
 	}
 	return -1;
 }
