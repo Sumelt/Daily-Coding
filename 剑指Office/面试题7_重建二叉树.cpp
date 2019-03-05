@@ -32,7 +32,7 @@ TreeNode* CreatTreeNode( vector<int> *pre,vector<int> *vin,
 			break;
 	int Length = inRootIndex - vinStartIndex; //左子树的长度 
 	root ->left = CreatTreeNode( pre, vin, 
-		preStartIndex + 1, preStartIndex + Length, vinStartIndex, inRootIndex - 1 );
+		preStartIndex + 1, preStartIndex + Length, vinStartIndex, inRootIndex - 1 ); //先序区间 中序区间 
 	root ->right = CreatTreeNode( pre, vin, 
 		preStartIndex + Length + 1, preEndIndex, inRootIndex + 1, vinEndIndex );
 	
