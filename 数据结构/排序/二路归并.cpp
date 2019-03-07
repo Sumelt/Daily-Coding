@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
 {
 	int array[]	= {	8, 4, 5, 2, 6, 7, 1 };
 	int sumN = sizeof( array )/ sizeof( *array );	
-	//MerSort( array, 0, sumN );
-	NRMerSort( array, sumN );
+	MerSort( array, 0, sumN );
+	//NRMerSort( array, sumN );
 	auto bg = begin( array );
 	auto ed = end( array );
 	while( bg != ed ) 
