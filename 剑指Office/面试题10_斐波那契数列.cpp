@@ -26,10 +26,15 @@ int Fibonacci2(int n) {
 	return res;	
 }
 //尾递归
-int Fibonacci3(int n, int res1, int res2) {
+int FibonacciCore(int n, int res1, int res2)
+{
 	if( n == 0 || n == 1 ) 
 		return n == 1? res1 : 0; //这里 返回 res1 是因为 存储着结果 
-	return Fibonacci3( n - 1, res2, res2 + res1 ); //从 第n 项减到  1项 的结果就是从 第 1项加到 第 n 项 
+	return FibonacciCore( n - 1, res2, res2 + res1 ); //从 第n 项减到  1项 的结果就是从 第 1项加到 第 n 项 
+}
+
+int Fibonacci3(int n) {
+	return FibonacciCore( n, 1, 1 );
 } 
 
 
