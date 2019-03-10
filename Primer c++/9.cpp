@@ -59,9 +59,17 @@ int main(int argc, char *argv[])
 //	}
 //	for( auto inx : flist )
 //		cout << inx;
-	vec.reserve( 9 );
-	vec.shrink_to_fit();
-	cout << vec.size() << ' ' << vec.capacity() << endl;
+//	vec.reserve( 9 );
+//	vec.shrink_to_fit();
+//	cout << vec.size() << ' ' << vec.capacity() << endl;
+//	string river( "Mississippi" );
+//	cout << river.find_last_of( "is" ) << endl;  //10
+//	cout << river.find_last_not_of( "is" ) << endl; //9
+//	string s2 = "pi = 3.14";
+	//auto d = stod( s2.substr( s2.find_first_of( "+-.0123456789" ) ) );
+//	cout << s2.find_first_of( "+-.0123456789" );//d;
+
+	string::value_type str;
 	return 0;
 }
 
