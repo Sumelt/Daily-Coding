@@ -1,4 +1,4 @@
-/*----------------------------------------------------------------
+ï»¿/*----------------------------------------------------------------
 
 * @Author: Su
 
@@ -9,9 +9,24 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
+#include <ctime>
+#include <vector>
 using namespace std;
 
-//Ñ­»·ÊµÏÖ 
+
+//å°¾é€’å½’
+int Fibonacci3Core(int n, int res1, int res2)
+{
+	if( n == 0 || n == 1 ) 
+		return n == 1? res1 : 0; //è¿™é‡Œ è¿”å› res1 æ˜¯å› ä¸º å­˜å‚¨ç€ç»“æœ 
+	return Fibonacci3Core( n - 1, res2, res2 + res1 ); //ä» ç¬¬n é¡¹å‡åˆ°  1é¡¹ çš„ç»“æœå°±æ˜¯ä» ç¬¬ 1é¡¹åŠ åˆ° ç¬¬ n é¡¹ 
+}
+
+int Fibonacci3(int n) {
+	return Fibonacci3Core( n, 1, 1 );
+} 
+
+//å¾ªç¯å®ç° 
 int Fibonacci2(int n) {
 	int res = 0;
 	int temp1 = 0, temp2 = 1;
@@ -25,29 +40,52 @@ int Fibonacci2(int n) {
 	}
 	return res;	
 }
-//Î²µİ¹é
-int FibonacciCore(int n, int res1, int res2)
-{
-	if( n == 0 || n == 1 ) 
-		return n == 1? res1 : 0; //ÕâÀï ·µ»Ø res1 ÊÇÒòÎª ´æ´¢×Å½á¹û 
-	return FibonacciCore( n - 1, res2, res2 + res1 ); //´Ó µÚn Ïî¼õµ½  1Ïî µÄ½á¹û¾ÍÊÇ´Ó µÚ 1Ïî¼Óµ½ µÚ n Ïî 
-}
 
-int Fibonacci3(int n) {
-	return FibonacciCore( n, 1, 1 );
-} 
-
-
-//µİ¹éÊµÏÖ
-int Fibonacci(int n) {
+//é€’å½’å®ç°
+int Fibonacci1(int n) {
 	if( n == 0 || n == 1 ) 
 		return n == 1? 1 : 0;
-	return Fibonacci( n - 1 ) + Fibonacci( n - 2 ); 
+	return Fibonacci1( n - 1 ) + Fibonacci1( n - 2 ); 
 }
+
+//è®°å¿†åŒ–æœç´¢  è‡ªé¡¶å‘ä¸‹ 
+int Fibonacci4Core( vector<int> *memo, int n )
+{
+	if( n == 0 )
+		( *memo )[ n ] = 0;
+	else if( n == 1 )
+		( *memo )[ n ] = 1;
+		
+	if( ( *memo )[ n ] == -1 )
+		( *memo )[ n ] = Fibonacci4Core( memo, n - 1 ) + 
+			Fibonacci4Core( memo, n - 2 );
+			
+	return ( *memo )[ n ];
+}
+int Fibonacci4( int n ) {
+	vector<int>memo( n + 1, -1 ); //ä¿å­˜è®¡ç®—æ‰€å¾—çš„ç»“æœ
+	return Fibonacci4Core( &memo, n );
+}
+
+//åŠ¨æ€è§„åˆ’ è‡ªåº•å‘ä¸Š 
+int Fibonacci5( int n ) {
+	vector<int>memo( n + 1, -1 ); //ä¿å­˜è®¡ç®—æ‰€å¾—çš„ç»“æœ
+	memo[ 0 ] = 0;
+	memo[ 1 ] = 1;
+	
+	for( int i = 2; i <= n; ++i )
+		memo[ i ] = memo[ i - 1 ] + memo[ i - 2 ];
+	
+	return memo[ n ];
+}
+ 
 
 int main(int argc, char *argv[])
 {
-	cout << Fibonacci3( 39, 1, 1 ) << endl;
-	cout << Fibonacci2(39); //4 * 8 = 32 bit = 2 ^32 = 2147483647
+	time_t startTime = clock();
+	cout << Fibonacci4( 20 ) << endl;
+	time_t endTime = clock();
+	cout << "spend time: " << double( endTime - startTime ) / CLOCKS_PER_SEC << endl;
+
 	return 0;
 }
