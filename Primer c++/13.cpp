@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include <array>
 using namespace std;
 
 class HasPtr {
@@ -113,8 +114,17 @@ int main()
 //	HasPtr HasPtrB("B");
 //	HasPtrA = HasPtrB;
 	int N = 3;
-	int i;
-	//int  &&t = N * 2;
+	int *ptr = &N;
+	array<int, 1>ary = { 1 };
+	
+	int &&rightReference = N * 3; //运算表达式返回的是值 
+	int &&rightReference2 = N++; //后置递增递减返回的是值 
+	
+	int &leftReference = N; //左值引用  
+	int &leftReference2 = *ptr; //解引用返回的是对象 
+	int &leftReference3 = ary.at( 0 ); //数组下标返回的是个对象
+	int &leftReference4 = --N; //前置递增递减返回的是个对象 
+	const int &leftReference5 = N * 3; //const的左值引用可以绑定一个值 
     return 0;
 }
 
