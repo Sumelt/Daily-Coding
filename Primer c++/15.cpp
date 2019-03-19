@@ -22,11 +22,13 @@ public:
 	void basePrint( int value ) { 
 		cout << "basePrint with value: " << value << endl;
 	}
-//	base( const base&, int value = 0 ) { //检测移动构造函数 
-//		cout << "define belong owerseft copy struct" << endl;
-//	}
-	base( base&& ) noexcept = default; //显式定义移动操作也无济于事 ，编译器根本不会为其生成 
+	base( const base& ) { //检测移动构造函数 
+		cout << "define belong owerseft copy struct" << endl;
+	}
+//	base( const base& ) = delete; //显示删除拷贝构造 不然 move自动启用 
+//	base( base&& ) noexcept = default; //显式定义移动操作也无济于事 ，编译器根本不会为其生成 
 	base() = default;
+	
 	
 private:
 	//static int baseCount; //静态成员，移动操作会失效 
