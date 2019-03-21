@@ -27,11 +27,12 @@ bool judgeStruct(TreeNode* pRoot1, TreeNode* pRoot2)
 		return true;
 	if( !pRoot1 )
 		return false;
-	bool res = false;
 	
-	res = judgeStruct( pRoot1->left, pRoot2->left ) &&
+	if( pRoot1->val != pRoot2->val )
+		return false;
+	
+	return judgeStruct( pRoot1->left, pRoot2->left ) &&
 		judgeStruct( pRoot1->right, pRoot2->right );
-	return res;
 }
 
 bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)

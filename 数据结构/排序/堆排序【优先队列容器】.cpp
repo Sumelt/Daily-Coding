@@ -12,7 +12,8 @@
 #include <queue>
 using namespace std;
 
-void StackSort( priority_queue<char, vector<char>, greater<char> > *Minstack, char *array )
+void StackSort( priority_queue<char, vector<char>, 
+	greater<char> > *Minstack, char *array )
 {
 	int i = 0;
 	while( !Minstack->empty() )
@@ -26,12 +27,10 @@ void StackSort( priority_queue<char, vector<char>, greater<char> > *Minstack, ch
 int main(int argc, char *argv[])
 {
 	char array[] = {'2','5','9','1','3','8','6','0','7','4'};
-	priority_queue<char, vector<char>, greater<char> >quePriority;
-	int sumN = sizeof(array)/sizeof(*array);
 	auto start = begin( array );
 	auto last = end( array );
-	while( start != last )
-		quePriority.push( *start++ );
+		
+	priority_queue<char, vector<char>, greater<char> >quePriority( start, last );	
 	
 	StackSort( &quePriority, array );
 		
@@ -39,5 +38,6 @@ int main(int argc, char *argv[])
 	last = end( array );
 	while( start != last )
 		cout << *start++ << ' ';
+		
 	return 0;
 }
