@@ -1,4 +1,4 @@
-ï»¿/*----------------------------------------------------------------
+/*----------------------------------------------------------------
 
 * @Author: Su
 
@@ -9,17 +9,49 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
+#include <vector>
+#include <forward_list>
 using namespace std;
 
 class Solution {
+private:
+	vector<int>nowres;	
+	vector<vector<int> >res;
 public:
-    vector<vector<int> > FindContinuousSequence(int sum) {
-        
+    void push( int small, int big ){
+    	for( int i = small; i <= big; ++i )
+    		nowres.push_back( i );
+   		res.push_back( nowres );
+   		nowres.clear();
+    }
+	vector<vector<int> > FindContinuousSequence(int sum) {
+        if( sum == 0 )
+        	return vector<vector<int>>();   	
+       		int smallPtr = 1;
+       		int bigPtr = 2;
+       		int addSum = 0;
+       		addSum += smallPtr + bigPtr;
+		   while( smallPtr < (( 1+sum )/2) ) { //ÖÁÉÙ±£Ö¤Á½¸öÊý				
+   				if( addSum == sum )
+				   	push( smallPtr, bigPtr );//ÏàµÈÔò°ÑÇø¼äÔªËØÑ¹ÈëÈÝÆ÷£¬´ËÊ±ÔªËØÖµ²»ÇåÁã£¬¶øÊÇÔÚ´Ë»ù´¡ÉÏÑ°ÕÒÏÂÒ»×éµÄÁ¬ÐøÇø¼äÔªËØ
+				while( addSum > sum && smallPtr < (( 1+sum )/2) ) {//ÕâÀïÊ®·ÖÇÉÃî£¬Í¬Ê±»ñµÃÏÂÒ»×éµÄÁ¬ÐøÐòÁÐ
+					addSum -= smallPtr;
+					++smallPtr;					
+ 					if( addSum == sum )
+				   		push( smallPtr, bigPtr );									
+				}
+				++bigPtr;
+				addSum += bigPtr;
+			}
+		return res;     	
     }
 };
-
 int main(int argc, char *argv[])
 {
-	
+	Solution oj;
+	auto res = oj.FindContinuousSequence( 3 );
+	for( auto vec : res )
+		for( auto value : vec  )
+			cout << value <<' ';
 	return 0;
 }
