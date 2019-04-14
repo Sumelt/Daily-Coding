@@ -12,6 +12,30 @@
 #include <vector>
 using namespace std;
 
+class Solution {	
+public:
+    vector<int> multiply(const vector<int>& A) {
+    	if( A.size() == 0 )
+    		return vector<int>();
+   		
+   		vector<int>vec( A.size(), 1 );
+   		
+   		for( int i = 1; i < A.size(); ++i ) {
+		   		vec[ i ] = vec[ i - 1 ] * A[ i - 1 ];
+		   		cout << vec[ i ] << ends;
+		   }
+   			
+		cout << endl;
+		for( int i = A.size() - 2; i >= 0; --i ) {
+			vec[ i ] *= vec[ i + 1 ] * A[ i + 1 ];
+			cout << vec[ i ] << ends;
+		}
+			
+			
+		return vec;
+    }
+};
+
 void arrayProduct( const vector<int>vec1, vector<int>vec2 )
 {
 	int size1 = vec1.size();
@@ -32,6 +56,7 @@ void arrayProduct( const vector<int>vec1, vector<int>vec2 )
 
 int main(int argc, char *argv[])
 {
-	
+	Solution oj;
+	oj.multiply( { 1,2,3,4,5 } );
 	return 0;
 }
