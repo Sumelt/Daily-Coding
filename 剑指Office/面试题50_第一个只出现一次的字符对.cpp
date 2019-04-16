@@ -1,4 +1,4 @@
-ï»¿/*----------------------------------------------------------------
+/*----------------------------------------------------------------
 
 * @Author: Su
 
@@ -16,27 +16,26 @@ class Solution {
 private:
 	class value{
 		public:
-			int _count = 0;
-			int _index = 0;
+			int _count = 0;//³öÏÖµÄ´ÎÊı
+			int _index = 0;//Î»ÖÃ
 			value() : _count( 0 ), _index( 0 ){}
 	};	
-	map<char, value>mp;
+	map<char, value>mp;//¹şÏ£±í
 public:
     int FirstNotRepeatingChar(string str) {
         if( str.size() == 0 )
         	return -1;
        	for( int i = 0; i < str.size(); ++i ) {
-		       	mp[ str[ i ] ]._count++;
-		       	mp[ str[ i ] ]._index = i;
+		       	mp[ str[ i ] ]._count++;//ÀÛ¼Ó³öÏÖµÄ´ÎÊı
+		       	mp[ str[ i ] ]._index = i;//±£´æ¸ÃÎ»ÖÃ
 	       }
 	
   		for( int i = 0; i < str.size(); ++i )
   			if( mp[ str[ i ] ]._count == 1 )
-			  	return mp[ str[ i ] ]._index;				
+			  	return mp[ str[ i ] ]._index;//·µ»Ø¸ÃÎ»ÖÃ				
 		return -1;
     }
 };
-
 int main(int argc, char *argv[])
 {
 	Solution oj;

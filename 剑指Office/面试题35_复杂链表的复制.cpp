@@ -9,20 +9,19 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
-
+using namespace std;
 struct RandomListNode {
     int label;
     struct RandomListNode *next, *random;
     RandomListNode(int x) :
-            label(x), next(NULL), random(NULL) {
+    	label(x), next(NULL), random(NULL) {
     }
 };
 
-
-//class Solution {
-//public:
+class Solution {
+public:
     
-    void CloneNode( RandomListNode* &pHead )
+    void CloneNode( RandomListNode* pHead )
     {   	
 		if( pHead != nullptr ) {
 			RandomListNode *newNode = new RandomListNode( pHead->label );
@@ -34,7 +33,7 @@ struct RandomListNode {
 		else return;	
     } 
 	
-	void CloneNodeRandomPtr( RandomListNode* &pHead )
+	void CloneNodeRandomPtr( RandomListNode* pHead )
 	{
 		if( pHead == nullptr )
 			return;
@@ -44,17 +43,23 @@ struct RandomListNode {
 		CloneNodeRandomPtr( pHead->next->next );
 	}
 	
-	RandomListNode *CloneNodeSeparation( RandomListNode* &pHead ) {		
-		if( pHead == nullptr )
-			return nullptr;
-		RandomListNode *CloneNode = pHead->next;
-		if( CloneNode->next == nullptr )
-			CloneNode->next = nullptr;
-		else {
-			CloneNode->next = CloneNodeSeparation( pHead->next->next );
-			pHead->next = CloneNode->next;
-		} 
-		return CloneNode;
+	RandomListNode *CloneNodeSeparation( RandomListNode* pHead ) {		
+		RandomListNode *node = nullptr;
+		RandomListNode *headNode = nullptr;
+		RandomListNode *pNode = pHead;
+		
+		if( pNode != nullptr ) {
+			headNode = node = pNode->next;
+			pNode->next = node->next;
+			pNode = pNode->next;
+		}
+		while( pNode != nullptr ) {
+			node->next = pNode->next;
+			node = node->next;
+			pNode->next = node->next;
+			pNode = pNode->next;			
+		}
+		return headNode;
 	} 
 	
 	RandomListNode* Clone(RandomListNode* pHead)
@@ -63,22 +68,19 @@ struct RandomListNode {
         	return nullptr;
        	RandomListNode *head = pHead;
        	CloneNode( pHead );
-       	//pHead = head;
-       	CloneNodeRandomPtr( pHead );
-       	//pHead = head;     	
-       	return CloneNodeSeparation( head );
+       	CloneNodeRandomPtr( pHead );    	
+       	return CloneNodeSeparation( pHead );
     }
-//};
+};
 
-using namespace std;
 int main(int argc, char *argv[])
 {
 	RandomListNode* node = new RandomListNode( 3 );
 	RandomListNode* node2 = new RandomListNode( 4 );
 	node->next = node2;
 	RandomListNode *temp = Clone( node );
-//	cout << temp << ' ' << node << endl;
-//	cout << temp->next << ' ' << node2 << endl;
+	cout << temp << ' ' << node << endl;
+	cout << temp->next << ' ' << node2 << endl;
 	while( temp != nullptr ) {
 		cout << temp->label << ' ';
 		temp = temp->next;
