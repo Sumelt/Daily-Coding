@@ -1,4 +1,4 @@
-ï»¿/*----------------------------------------------------------------
+/*----------------------------------------------------------------
 
 * @Author: Su
 
@@ -18,38 +18,38 @@ using namespace std;
 class Solution{
 private:
 	int maxLength = 0;
-	vector<char>MaxLengthString;
-	map<char,int>mp;
+	vector<char>MaxLengthString;//±£´æ×î³¤×Ö·û´®ÈÝÆ÷
+	map<char,int>mp;//¹þÏ£±í
 public:
 	pair< vector<char>, int > findStringMaxLength( string str ) {
 		if( str.size() == 0 )
-			return pair< vector<char>, int >();
-		for( char i = 'a'; i <= 'z'; ++i )
+			return pair< vector<char>, int >();        
+		for( char i = 'a'; i <= 'z'; ++i )//¹þÏ£±í³õÊ¼»¯
 			mp[ i ] = -1;
 		int curLength = 0;	
 		for( int index = 0; index < str.size(); ++index ) {
-			if( mp[ str[ index ] ] < 0 || index - mp[ str[ index ] ] > curLength ) {				
+			//²»ÖØ¸´×Ö·û»òÕßÊÇÖØ¸´µÄ×Ö·û³öÏÖÔÚÓÐÐ§×Ö·û´®µÄÇ°Ãæ
+            if( mp[ str[ index ] ] < 0 || index - mp[ str[ index ] ] > curLength ) {	
 				++curLength;
-				MaxLengthString.push_back( str[ index ] );
-			}
-			else {
-				if( maxLength < curLength )
+				MaxLengthString.push_back( str[ index ] );//±£´æµ±Ç°µÄ×Ö·û
+			}         
+			else {//³öÏÖÖØ¸´×Ö·ûÇÒ³öÏÖÔÚÓÐÐ§×Ö·û´®µÄºóÃæ
+				if( maxLength < curLength )//±£´æ×î´óµÄ×Ö·û´®³¤¶È
 					maxLength = curLength;
+                //ÈÝÆ÷ÖÐµÄ×Ö·û´®³¤¶ÈÐ¡ÓÚµ±Ç°×Ö·û´®µÄ³¤¶È²ÅÇå¿Õ
 				if( MaxLengthString.size() <= ( index - mp[ str[ index ] ] ) ) {
 					MaxLengthString.clear();
-					MaxLengthString.push_back( str[ index ] );
+					MaxLengthString.push_back( str[ index ] );//±£´æµÚÒ»¸ö×Ö·û
 				}				
-				curLength = 1;
+				curLength = 1;//µ±Ç°³¤¶È±äÎª1
 			}
-			mp[ str[ index ] ] = index;
+			mp[ str[ index ] ] = index;//±£´æ´Ê×Ö·û³öÏÖµÄÏÂ±ê
 		}
 		if( maxLength < curLength )
 			maxLength = curLength;
-		return pair< vector<char>, int >( MaxLengthString, maxLength );
-	}
-		
+		return pair< vector<char>, int >( MaxLengthString, maxLength );//·µ»Ø¹ØÁªÈÝÆ÷
+	}	
 };
-
 
 int main(int argc, char *argv[])
 {
