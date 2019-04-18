@@ -9,9 +9,12 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
+#include "../random_number.h" 
 using namespace std;
 
-//递归
+//递归版本1 
+namespace MerSortVersion{
+
 void _Merge( int *array, int *tempArray, int Lfirst, int mid, int Rlast )
 {
 	int Llast = mid;
@@ -45,23 +48,89 @@ void _sort( int *array, int *tempArray, int first, int last )//右边 最后的�
 		
 }
 
-void MerSort( int *array, int L, int N )
-{
-	int *tempArray = new int[ N ]; //临时空间
-	_sort( array, tempArray, L,  N - 1 );
+void MerSort( int *array, int L, int N ){
+		int *tempArray = new int[ N ]; //临时空间
+		_sort( array, tempArray, L,  N - 1 );
+	}	
 }
 
+//优化版递归 
+namespace optimizationMerSort{
+//插入排序
+void _insertSort( int *ary, int beginIndex, int endIndex ) {
+	
+	for( int index = beginIndex; index <= endIndex; ++index ) {
+		int tempValue = ary[ index ];
+		int tempIndex = index;
+		while( tempIndex > 0 && tempValue < ary[ tempIndex - 1 ] ) {
+			ary[ tempIndex ] = ary[ tempIndex - 1 ];
+			--tempIndex;
+		}	
+		ary[ tempIndex ] = tempValue;
+	}	
+}
+
+void _Merge( int *ary, int *aidArray, int LbeginIndex, int midIndex, int RendIndex ) {
+	
+	int LendIndex = midIndex;
+	int RbeginIndex = midIndex + 1;
+	int numberSize = RendIndex - LbeginIndex + 1;//要排序元素的个数
+	int aidCurIndex = LbeginIndex;//辅助数组空间的下标
+	
+	//从首元素分别开始归并，也可从尾元素开始
+    while( LbeginIndex <= LendIndex && RbeginIndex <= RendIndex ) {
+		if( ary[ LbeginIndex ] < ary[ RbeginIndex ] )
+			aidArray[ aidCurIndex++ ] = ary[ LbeginIndex++ ];
+		else aidArray[ aidCurIndex++ ] = ary[ RbeginIndex++ ];
+	}
+	
+	while( LbeginIndex <= LendIndex )
+		aidArray[ aidCurIndex++ ] = ary[ LbeginIndex++ ];
+	while( RbeginIndex <= RendIndex )
+		aidArray[ aidCurIndex++ ] = ary[ RbeginIndex++ ];
+		
+	//辅助空间元素导回原始数组实现元素排列
+    --aidCurIndex;
+	for( int i = 0; i < numberSize; ++i, --aidCurIndex )
+		ary[ aidCurIndex ] = aidArray[ aidCurIndex ];
+		
+}
+
+void _sort( int *ary, int *aidArray, int beginIndex, int endIndex ){
+	
+	//优化一：待排元素个数小于给定的阈值转为插入排序 
+	if( endIndex - beginIndex + 1 < 20 ) {
+		_insertSort( ary, beginIndex, endIndex );
+		return;
+	}
+	int midIndex = ( beginIndex + endIndex ) >> 1;
+	
+	_sort( ary, aidArray, beginIndex, midIndex );
+	_sort( ary, aidArray, midIndex + 1, endIndex );
+	
+	//优化二：两序列是基本有序的不进行归并 
+	if( ary[ midIndex ] > ary[ midIndex + 1 ] )
+		_Merge( ary, aidArray, beginIndex, midIndex, endIndex );
+}
+//公有的归并函数接口	
+void MerSort( int *ary, int length ) {
+		int *aidArray = new int[ length ]();
+		_sort( ary, aidArray, 0, length - 1 );
+	}
+}
 
 int main(int argc, char *argv[])
 {
-	int array[]	= {	8, 9, 4, 5, 2, 6, 7, 1 };
-	int sumN = sizeof( array )/ sizeof( *array );	
-	MerSort( array, 0, sumN );
-	//NRMerSort( array, sumN );
-	auto bg = begin( array );
-	auto ed = end( array );
-	while( bg != ed ) 
-		cout << *bg++ << ' ';
+	int length = 100;
+	auto ary = Generate_random_numbers<>( 1, 50, length );
+	
+	optimizationMerSort::MerSort( ary, length );
+	
+	for( int index = 0; index < length; ++index )
+		cout << ary[ index ] << ends;
+	
+	delete []ary;
+		
 		
 	return 0;
 }

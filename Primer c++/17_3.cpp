@@ -16,7 +16,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	default_random_engine e;
+	//default_random_engine e;
 	//uniform_real_distribution<double> u( 0, 1 );
 	bernoulli_distribution b( 0.6 );
 	int t = 0;

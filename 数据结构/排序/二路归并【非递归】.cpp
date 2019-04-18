@@ -10,9 +10,11 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
+#include "../random_number.h" 
 using namespace std;
 
 //非递归
+namespace NRMerSort {
 void _Merge( int *array, int *tempArray, int Lfirst, int mid, int Rlast )
 {
 	int Llast = mid - 1;
@@ -35,8 +37,7 @@ void _Merge( int *array, int *tempArray, int Lfirst, int mid, int Rlast )
 		array[ Rlast ] = tempArray[ Rlast ];
 }
 
-void NRMerSort( int *array, int N ) 
-{
+void NRMerSort( int *array, int N ) {
 	int *tempArray = new int[ N ]; //临时空间
 	int i = 0;
 	for( int length = 1; length < N; length *= 2 ) //length 为一个序列的长度 
@@ -57,19 +58,80 @@ void NRMerSort( int *array, int N )
 		else; //还剩一个区间，但该区间长度不满足一个length 
 	}
 	
-	delete tempArray;
+		delete tempArray;
+   }	
 }
+
+namespace bottonUpMergeSort{
+void _Merge( int *ary, int *aidArray, int LbeginIndex, int midIndex, int RendIndex ) {
+	
+	int LendIndex = midIndex;
+	int RbeginIndex = midIndex + 1;
+	int numberSize = RendIndex - LbeginIndex + 1;//要排序元素的个数
+	int aidCurIndex = LbeginIndex;//辅助数组空间的下标
+	
+	//从首元素分别开始归并，也可从尾元素开始
+    while( LbeginIndex <= LendIndex && RbeginIndex <= RendIndex ) {
+		if( ary[ LbeginIndex ] < ary[ RbeginIndex ] )
+			aidArray[ aidCurIndex++ ] = ary[ LbeginIndex++ ];
+		else aidArray[ aidCurIndex++ ] = ary[ RbeginIndex++ ];
+	}
+	
+	while( LbeginIndex <= LendIndex )
+		aidArray[ aidCurIndex++ ] = ary[ LbeginIndex++ ];
+	while( RbeginIndex <= RendIndex )
+		aidArray[ aidCurIndex++ ] = ary[ RbeginIndex++ ];
+		
+	//辅助空间元素导回原始数组实现元素排列
+    --aidCurIndex;
+	for( int i = 0; i < numberSize; ++i, --aidCurIndex )
+		ary[ aidCurIndex ] = aidArray[ aidCurIndex ];
+		
+}
+void bottonUpMergeSort( int *ary, int length ) {		
+	int *aidArray = new int[ length ]();
+    //第一层for循环是从每个序列元素个数为1开始两两归并，然后下一次是元素个数为2的序列两两归并，一直到整个序列
+    //第二层for循环是两个序列归并之后，再到下两个序列归并
+	for( int sequenceSize = 1; sequenceSize <= length; sequenceSize += sequenceSize ) {
+	
+        //条件：fstSeqBegIndex + sequenceSize < length 保证至少存在两个序列
+        for( int fstSeqBegIndex = 0; fstSeqBegIndex + sequenceSize < length; 
+			fstSeqBegIndex += sequenceSize + sequenceSize )//移动到下两个序列
+
+//序列【fstSeqBegIndex，fstSeqBegIndex + sequenceSize - 1】
+//和序列【fstSeqBegIndex + sequenceSize, fstSeqBegIndex + sequenceSize*2 - 1 】归并
+		_Merge( ary, aidArray, fstSeqBegIndex, fstSeqBegIndex + sequenceSize - 1,  
+               min( fstSeqBegIndex + sequenceSize + sequenceSize - 1 , length - 1 ) );	//这里有三种情况
+//全部满足两两归并（这时整个序列被分割成多份）
+//前一部分满足两两归并，最后只剩下一个序列（此序列不做任何归并而是进行下一次的第一层for序列个数叠加；这时整个序列还是被分割成多份）
+//前一部分满足序列个数，后一部分不满足序列个数（这时整个序列只被分成两部分），它们两两归并即可
+		}
+	}
+}
+
+/*
+1 2 3 4 5 6 7 8 9 10
+序列个数为1时归并：1 | 2 -- 3 | 4 -- 5 | 6 -- 7 | 8 -- 9 | 10 
+序列个数为2时归并：1 2 | 3 4 -- 5 6 | 7 8 -- 9 10 | xx
+序列个数为4时归并：1 2 3 4 | 5 6 7 8 -- 9 10 xx
+序列个数为8时归并：1 2 3 4 5 6 7 8 | 9 10
+*/  
 
 int main(int argc, char *argv[])
 {
-	int array[]	= {	10, 8, 9, 4, 7, 2, 1 };
-	int sumN = sizeof( array )/ sizeof( *array );
-	NRMerSort( array, sumN );
+	int length = 13;
+	auto ary = Generate_random_numbers<>( 1, 50, length );
 	
-	auto bg = begin( array );
-	auto ed = end( array );
-	while( bg != ed ) 
-		cout << *bg++ << ' ';	
+//	for( int index = 0; index < length; ++index )
+//		cout << ary[ index ] << ends;
+//	cout << endl;	
+
+	bottonUpMergeSort::bottonUpMergeSort( ary, length );
+	
+	for( int index = 0; index < length; ++index )
+		cout << ary[ index ] << ends;
+	
+	delete []ary;	
 		
 	return 0;
 }
