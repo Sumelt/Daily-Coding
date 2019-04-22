@@ -1,4 +1,4 @@
-ï»¿#ifndef __RANDOM_NUMBER_H__
+#ifndef __RANDOM_NUMBER_H__
 #define __RANDOM_NUMBER_H__
 
 #include <iostream>
@@ -6,7 +6,7 @@
 #include <ctime>
 #include <cassert>
 using namespace std;
-//éšæœºæ•°äº§ç”Ÿ 
+//Ëæ»úÊı²úÉú 
 template <typename T = int>
 T *Generate_random_numbers( int startRange, int endRange, int sumCount = 10 );
 
@@ -24,7 +24,7 @@ T *Generate_random_numbers( int startRange, int endRange, int sumCount )
 	return array;
 	
 }
-//å…ƒç´ é¡ºåºæµ‹è¯• 
+//ÔªËØË³Ğò²âÊÔ 
 template<typename T>
 bool isSorted(T arr[], int n) {
 
@@ -34,7 +34,7 @@ bool isSorted(T arr[], int n) {
 
     return true;
 }
-//è€—æ—¶æµ‹è¯• 
+//ºÄÊ±²âÊÔ 
 template<typename T>
 void testSort(const string &sortName, void (*sort)(T[], int), T arr[], int n) {
 
