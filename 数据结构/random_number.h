@@ -37,7 +37,7 @@ bool isSorted(T arr[], int n) {
 //耗时测试 
 template<typename T>
 void testSort(const string &sortName, void (*sort)(T[], int), T arr[], int n) {
-
+	
     clock_t startTime = clock();
     sort(arr, n);
     clock_t endTime = clock();
@@ -46,8 +46,22 @@ void testSort(const string &sortName, void (*sort)(T[], int), T arr[], int n) {
 			<< " s" <<endl;
 
     assert(isSorted(arr, n));
-
+    	
     return;
 }
+
+/*
+void print() {
+	
+	cout << "Sort before: " ;
+	for( int i = 0; i < n; ++i )
+		cout << arr[ i ] << ends;
+	cout << endl;
+
+	cout << "Sorted after: ";
+	for( int i = 0; i < n; ++i )
+		cout << arr[ i ] << ends; 	
+}*/
+
 
 #endif
