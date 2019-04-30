@@ -1,4 +1,4 @@
-ï»¿/*----------------------------------------------------------------
+/*----------------------------------------------------------------
 
 * @Author: Su
 
@@ -16,61 +16,94 @@ using namespace std;
 namespace Binary_search {
 template <typename T>
 int Binarysearch( T *ary, int size, T target) {
-		
-		int leftIndex = 0, rightIndex = size - 1;
-		while( leftIndex <= rightIndex ) {
-			
-			int midIndex = leftIndex + ( ( rightIndex - leftIndex ) >> 1 );
-			if( target == ary[ midIndex ] )
-				return midIndex;
-			if( target > ary[ midIndex ] )
-				leftIndex = midIndex + 1;
-			else rightIndex = midIndex - 1;
-		}
-		return -1;
-	}
-template<typename T>
-int floor( T *ary, int size, T target) {
+	
 	int leftIndex = 0, rightIndex = size - 1;
-	while( leftIndex < rightIndex ) {
+	while( leftIndex <= rightIndex ) {
 		
-		int midIndex = leftIndex + ( ( rightIndex - leftIndex ) >> 1 );
-		if( target <= ary[ midIndex ] )
-			leftIndex = midIndex;
+		int midIndex = leftIndex + ( ( rightIndex - leftIndex ) >> 1 );//±ÜÃâÒç³ö 
+		if( target == ary[ midIndex ] )
+			return midIndex;
+		if( target > ary[ midIndex ] )
+			leftIndex = midIndex + 1;
 		else rightIndex = midIndex - 1;
 	}
-		
-	return  leftIndex;	
+	return -1;
 }
 
+// ¶ş·Ö²éÕÒ·¨, ÔÚÓĞĞòÊı×éarrÖĞ, ²éÕÒtarget
+// Èç¹ûÕÒµ½target, ·µ»ØµÚÒ»¸ötargetÏàÓ¦µÄË÷Òıindex
+// Èç¹ûÃ»ÓĞÕÒµ½target, ·µ»Ø±ÈtargetĞ¡µÄ×î´óÖµÏàÓ¦µÄË÷Òı, Èç¹ûÕâ¸ö×î´óÖµÓĞ¶à¸ö, ·µ»Ø×î´óË÷Òı
+// Èç¹ûÕâ¸ötarget±ÈÕû¸öÊı×éµÄ×îĞ¡ÔªËØÖµ»¹ÒªĞ¡, Ôò²»´æÔÚÕâ¸ötargetµÄfloorÖµ, ·µ»Ø-1
 template<typename T>
-int ceil( T *ary, int size, T target) {
-		int leftIndex = 0, rightIndex = size - 1;
-		while( leftIndex <= rightIndex ) {
-			
-			int midIndex = leftIndex + ( ( rightIndex - leftIndex ) >> 1 );
-			if( ary[ midIndex ] >= target )
-				rightIndex = midIndex;
-			else leftIndex = midIndex + 1;
-		}
-		if( rightIndex - 1 < size && ary[ rightIndex - 1 ] == target )
-			return rightIndex - 1;
-		
-		return  rightIndex;		
+int floor(T arr[], int n, T target){
+
+    assert( n >= 0 );
+
+    // Ñ°ÕÒ±ÈtargetĞ¡µÄ×î´óË÷Òı
+    int l = -1, r = n-1;
+    while( l < r ){
+        // Ê¹ÓÃÏòÉÏÈ¡Õû±ÜÃâËÀÑ­»·
+        int mid = l + (r-l+1)/2;
+        cout << "floor: mid: " << mid << ' ' << l << ' ' << r << endl;
+        if( arr[mid] >= target )//´óÓÚµÈÄ¿±êÖµÊ± 
+            r = mid - 1; //ËõĞ¡Î²²¿ 
+        else
+            l = mid;
+    }
+
+    assert( l == r );
+
+    // Èç¹û¸ÃË÷Òı+1¾ÍÊÇtarget±¾Éí, ¸ÃË÷Òı+1¼´Îª·µ»ØÖµ
+    if( l + 1 < n && arr[l+1] == target )
+        return l + 1;
+
+    // ·ñÔò, ¸ÃË÷Òı¼´Îª·µ»ØÖµ
+    return l;
+}
+
+
+// ¶ş·Ö²éÕÒ·¨, ÔÚÓĞĞòÊı×éarrÖĞ, ²éÕÒtarget
+// Èç¹ûÕÒµ½target, ·µ»Ø×îºóÒ»¸ötargetÏàÓ¦µÄË÷Òıindex
+// Èç¹ûÃ»ÓĞÕÒµ½target, ·µ»Ø±Ètarget´óµÄ×îĞ¡ÖµÏàÓ¦µÄË÷Òı, Èç¹ûÕâ¸ö×îĞ¡ÖµÓĞ¶à¸ö, ·µ»Ø×îĞ¡µÄË÷Òı
+// Èç¹ûÕâ¸ötarget±ÈÕû¸öÊı×éµÄ×î´óÔªËØÖµ»¹Òª´ó, Ôò²»´æÔÚÕâ¸ötargetµÄceilÖµ, ·µ»ØÕû¸öÊı×éÔªËØ¸öÊın
+template<typename T>
+int ceil(T arr[], int n, T target){
+
+	    assert( n >= 0 );
+	
+	    // Ñ°ÕÒ±Ètarget´óµÄ×îĞ¡Ë÷ÒıÖµ
+	    int l = 0, r = n;
+	    while( l < r ){
+	        // Ê¹ÓÃÆÕÍ¨µÄÏòÏÂÈ¡Õû¼´¿É±ÜÃâËÀÑ­»·
+	        int mid = l + (r-l)/2;
+	        //cout << "" 
+	        if( arr[mid] <= target )
+	            l = mid + 1;
+	        else // arr[mid] > target
+	            r = mid;
+	    }
+	
+	    assert( l == r );
+	
+	    // Èç¹û¸ÃË÷Òı-1¾ÍÊÇtarget±¾Éí, ¸ÃË÷Òı+1¼´Îª·µ»ØÖµ
+	    if( r - 1 >= 0 && arr[r-1] == target )
+	        return r-1;
+	
+	    // ·ñÔò, ¸ÃË÷Òı¼´Îª·µ»ØÖµ
+	    return r;
 	}
 }
-
 
 int main(int argc, char *argv[])
 {
 	int length = 20;
 	int *ary = Generate_random_numbers( 20, 90, length );
-	sort( ary, ary + length );	
+	sort( ary, ary + length );
+	
 	for( int i = 0; i < length; ++i )
 		cout << ary[ i ] << ends;
-	
+	cout << endl;
 	cout << endl << Binary_search::floor( ary, length, 23 );
-
 	
 	return 0;
 }

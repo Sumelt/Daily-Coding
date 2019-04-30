@@ -38,12 +38,15 @@ class BST{
 		~BST() {
 			destory( root );
 		}
+		//是否空判断 
 		bool isEmpty() {
 			return count == 0;
 		}
+		//插入节点 
 		void insert( Key key, Value value ) {
-			root = _insert( root, key, value );
+			root = _insert( root, key, value );//非递归插入 
 		}
+		//返回节点个数 
 		int size() {
 			return count;
 		}
@@ -55,15 +58,19 @@ class BST{
 		Value *search( Key key ) {
 			return search( root, key );
 		}
+		//递归前序遍历 
 		void preOrder() {
 			preOrder( root );
 		}
+		//递归中序遍历 
 		void inOrder() {
 			inOrder( root );
 		}
+		//递归后序遍历 
 		void postOrder() {
 			postOrder( root );
 		}
+		//层序遍历 
 		void leverOder() {
 			if( root != nullptr ) {
 				queue<Node*>que;
@@ -81,9 +88,11 @@ class BST{
 				}
 			}
 		}
+		//移除最小节点 
 		void removeMinNode() {
 			root = removeMinNode( root );
 		}
+		//移除最大节点 
 		void removeMaxNode() {
 			root = removeMaxNode( root );
 		}
@@ -91,13 +100,16 @@ class BST{
 		void removeNode( Key key ) {
 			root = removeNode( root, key );
 		}
+		//返回最大节点 
 		Node* maxNode() {
 			return maxNode( root );
 		}
+		//返回最小节点 
 		Node* minNode() {
 			return minNode( root );
 		}				
 	private:
+		//插入递归写法 
 		Node* insert( Node *root, Key key, Value value ) {
 			if( root == nullptr ) {
 				count += 1;
@@ -112,7 +124,7 @@ class BST{
 				
 			return root;
 		}
-		//非递归写法 
+		//插入非递归写法 
 		Node* _insert( Node *root, Key key, Value value ) {
 			Node *node = root;
 			while( node != nullptr && node->key != key ) {
@@ -194,11 +206,13 @@ class BST{
 				return node;
 			return maxNode( node->right );
 		}
+		
 		Node* minNode( Node *node ) {
 			if( node->left == nullptr )
 				return node;
 			return minNode( node->left );			
 		}
+		//移除最小节点
 		Node* removeMinNode( Node* node ) {
 			if( node->left == nullptr ) {
 				Node *rightNode = node->right; //这里很巧妙融合了两种条件空和非空节点 
@@ -209,6 +223,7 @@ class BST{
 			else node->left = removeMinNode( node->left );
 			return node;
 		}
+		//移除最大节点 
 		Node* removeMaxNode( Node* node ) {
 			if( node->right == nullptr ) {
 				Node *leftNode = node->left;
@@ -219,6 +234,7 @@ class BST{
 			else node->right = removeMaxNode( node->right );
 			return node;
 		}
+		//移除任意节点 
 		Node* removeNode( Node* node, Key key ) {
 			if( node == nullptr )
 				return nullptr;
@@ -246,7 +262,7 @@ class BST{
 				}
 				//左右都有孩子节点 
 				else {
-					Node *postInher = new Node( minNode( node->right ) );
+					Node *postInher = new Node( minNode( node->right ) );//后继节点：右子树中最小的节点 
 					postInher->left = node->left;
 					postInher->right = removeMinNode( node->right );
 					delete node;
@@ -291,7 +307,7 @@ int main(int argc, char *argv[])
 {
 	using namespace BSTversion2;
 	
-	findWord( "melt" );
+	//findWord( "melt" );
 
 	return 0;
 }
