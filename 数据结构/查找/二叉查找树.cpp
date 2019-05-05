@@ -8,7 +8,7 @@
 
 ----------------------------------------------------------------*/
 
-#include "openFile.h"
+#include "../openFile.h"
 #include <queue>
 using namespace std;
 
