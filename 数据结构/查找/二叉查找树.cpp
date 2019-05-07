@@ -29,7 +29,7 @@ class BST{
 				{}
 		};
 		Node *root;
-		static int count; //节点个数 
+		int count; //节点个数 
 		
 	public:
 		BST() {
@@ -102,12 +102,30 @@ class BST{
 		}
 		//返回最大节点 
 		Node* maxNode() {
+			assert( count > 0 );
 			return maxNode( root );
 		}
 		//返回最小节点 
 		Node* minNode() {
+			assert( count > 0 );
 			return minNode( root );
-		}				
+		}
+		//返回最后一个小于等于目标值的值
+		Key* floor( Key key ) {
+			if( count == 0 || key < minNode()->key ) //不存在比树中还要小的目标值 
+				return nullptr;
+			Node *node = floor( root, key );
+			
+			return &( node->key );
+		}
+		//返回第一个大于等于目标值的值
+		Key* ceil( Key key ) {
+			if( count == 0 || key > maxNode()->key )
+				return nullptr;
+			Node *node = ceil( root, key );
+
+			return &( node->key );
+		}
 	private:
 		//插入递归写法 
 		Node* insert( Node *root, Key key, Value value ) {
@@ -151,6 +169,7 @@ class BST{
 			else count += 1;
 			return root;
 		}
+		
 		bool contain( Node *root, Key key ) {
 			if( root == nullptr )
 				return false;
@@ -160,6 +179,7 @@ class BST{
 				return contain( root->right, key );
 			else return contain( root->left, key );
 		}
+		
 		Value *search( Node *root, Key key ) {
 			if( root == nullptr )
 				return nullptr;
@@ -201,12 +221,13 @@ class BST{
 				--count;
 			}		
 		}
+		//返回最大节点 
 		Node* maxNode( Node *node ) {
 			if( node->right == nullptr )
 				return node;
 			return maxNode( node->right );
 		}
-		
+		//返回最小节点 
 		Node* minNode( Node *node ) {
 			if( node->left == nullptr )
 				return node;
@@ -234,7 +255,7 @@ class BST{
 			else node->right = removeMaxNode( node->right );
 			return node;
 		}
-		//移除任意节点 
+		//移除任意节点，存在三种情况 
 		Node* removeNode( Node* node, Key key ) {
 			if( node == nullptr )
 				return nullptr;
@@ -262,17 +283,59 @@ class BST{
 				}
 				//左右都有孩子节点 
 				else {
-					Node *postInher = new Node( minNode( node->right ) );//后继节点：右子树中最小的节点 
-					postInher->left = node->left;
-					postInher->right = removeMinNode( node->right );
+					//方法一：采用前驱节点进行替补 
+					Node *postInher = new Node( maxNode( node->left ) );//后继节点：右子树中最小的节点 
+					postInher->right = node->right;
+					postInher->left = removeMaxNode( node->left );//递归删除后继节点(即是删除最小节点) 
+					
+					//方法二：：采用后继节点进行替补
+					//Node *successor = new Node( minNode( node->right ) );
+					//successor->left = root->left;
+					//successor->right = removeMinNode( root->right );
 					delete node;
 					return postInher;
 				}				
 			}
 		}
+		
+		Node* floor( Node *root, Key key ) {
+			if( root == nullptr )
+				return nullptr;
+			
+			if( root->key == key ) //存在目标值，直接返回 
+				return root;
+				
+			if( root->key > key ) //比目标值还大，递归左子树，我们要的是最后一个小于等于目标值 
+				root = floor( root->left, key );
+			
+			//进入到 最后一个小于等于目标值的范围 
+			else if( root->key < key ) {
+				Node *tmp = floor( root->right, key );//尝试递归右子树找出最后一个小于目标的值 
+				return ( tmp ? tmp : nullptr );
+			}
+			
+			return root;					
+		}
+		
+		Node *ceil( Node *root, Key key ) {
+			if( root == nullptr )
+				return nullptr;
+			
+			if( root->key == key )
+				return root;
+			if( root->key < key )
+				root = ceil( root->right, key );
+				
+			else if( root->key > key ) {
+				Node *tmp = ceil( root->left, key );
+				return ( tmp ? tmp : nullptr );
+			}
+			return root;	
+		}		
 	};
-template <typename Key, typename Value>
-	int BST<Key, Value>::count = 0;
+	
+//template <typename Key, typename Value>
+//	int BST<Key, Value>::count = 0;
 	
 void findWord( const string& str ){
 		BST<string, int> tree;
@@ -293,11 +356,12 @@ void findWord( const string& str ){
 		else 
 			cout << str << "no appear !!!" << endl;
 		//测试函数 
-		auto node = tree.minNode();
-		cout << node->key << endl;
-		tree.removeNode( node->key );
-		cout << tree.contain( node->key ) << endl;
-		cout << "Sum word: " << tree.size() << endl;
+//		auto node = tree.minNode();
+//		cout << node->key << endl;
+//		tree.removeNode( node->key );
+//		cout << tree.contain( node->key ) << endl;
+//		cout << "Sum word: " << tree.size() << endl;
+		cout << *tree.ceil( str ) ;
 	}
 }
 
