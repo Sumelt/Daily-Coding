@@ -10,6 +10,8 @@
 
 #include <iostream>
 using namespace std;
+
+namespace PrimVersion1 {
 #define INF 0x3ffffff 
 const int MAX = 10;
 int array[ MAX ][ MAX ];
@@ -52,19 +54,21 @@ int prim( int N )
 	return sumWeight;
 }
 
-void Input() //边权为0表示不联通 
-{
-	array[ 1 ][ 2 ] = 1;
-	array[ 2 ][ 1 ] = 1;
-	array[ 2 ][ 4 ] = 3;
-	array[ 4 ][ 2 ] = 3;
-	array[ 1 ][ 4 ] = 4;
-	array[ 4 ][ 1 ] = 4;
-	array[ 1 ][ 3 ] = 5;
-	array[ 3 ][ 1 ] = 5;
-	array[ 3 ][ 4 ] = 6;
-	array[ 4 ][ 3 ] = 6;
+//边权为0表示不联通
+void Input() {
+		array[ 1 ][ 2 ] = 1;
+		array[ 2 ][ 1 ] = 1;
+		array[ 2 ][ 4 ] = 3;
+		array[ 4 ][ 2 ] = 3;
+		array[ 1 ][ 4 ] = 4;
+		array[ 4 ][ 1 ] = 4;
+		array[ 1 ][ 3 ] = 5;
+		array[ 3 ][ 1 ] = 5;
+		array[ 3 ][ 4 ] = 6;
+		array[ 4 ][ 3 ] = 6;
+	}	
 }
+
 
 int main(int argc, char *argv[])
 {

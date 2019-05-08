@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <cassert>
+
 using namespace std;
 
 namespace opfile {
@@ -86,7 +87,43 @@ class readGraph{
 				graph.addEdge( v, w );//往两点加上边 
 								 
 			}
+			file.close();
 			
+		}
+		~readGraph() {}
+	};
+
+template <typename Graph, typename Weight>	
+class readWeightGraph {
+	private:
+		
+	public:
+		readWeightGraph( Graph& graph, const string &filePath ) {
+			ifstream file( filePath );
+			string line;
+			int sumV, sumE;
+			Weight weight;
+			
+			assert( file.is_open() ); //确保文件打开 
+			assert( getline( file, line ) );//读取第一行的点个数，边个数 
+			istringstream str( line );//初始化内存IO
+			str >> sumV >> sumE >> weight;  //变量从内存IO获取数据
+			
+			assert( sumV == graph.getPointSum() );
+			
+			while( getline( file, line ) ) { //读取每一行的连接信息 
+				istringstream str( line );//初始化内存IO
+				int v, w; //要连接的两点
+				Weight weight;//两点的权值 
+				str >> v >> w >> weight; //导入连接的两点和权值 
+				
+				assert( v >= 0 && v < graph.getPointSum() );
+				assert( w >= 0 && w < graph.getPointSum() );
+				
+				graph.addEdge( v, w, weight );//往两点加上边权 
+								 
+			}
+			file.close();
 		}		
 	};
 }
