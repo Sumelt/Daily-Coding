@@ -9,15 +9,16 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
 int main(int argc, char *argv[])
 {
-	auto p = make_pair( "Hello", 88 );
-	map<string, int> mp;
-	mp.insert( p );
+	unordered_map<string, int>umap;
+	umap[ "key1" ] = 32;
+	umap[ "key22" ] = 44;
+	cout << umap.bucket_size( 1 );
 	return 0;
 }
 

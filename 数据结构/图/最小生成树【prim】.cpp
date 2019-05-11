@@ -11,6 +11,7 @@
 #include <iostream>
 using namespace std;
 
+//Prim版本one 
 namespace PrimVersion1 {
 #define INF 0x3ffffff 
 const int MAX = 10;
@@ -69,6 +70,10 @@ void Input() {
 	}	
 }
 
+//Prim版本two
+namespace PrimVersion2 {
+	
+}
 
 int main(int argc, char *argv[])
 {

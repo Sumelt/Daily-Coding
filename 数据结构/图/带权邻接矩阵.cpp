@@ -16,6 +16,7 @@
 #include "./components.h"
 #include "./Edge.h"
 #include "./lazyPrim.h"
+#include "./prim.h"
 using namespace std;
 
 namespace AdjacencyMatrix {
@@ -125,10 +126,13 @@ public:
 		};
 	};
 }
+
+//测试最小生成树算法 
 using AdjacencyMatrix::Densegraph;
 template<typename Weight>
 void MinSpanTree( Densegraph<Weight>&graph ) {
-	LazyPrim<Densegraph<double>, double>primTree( graph );//最小生成树 
+	//LazyPrim<Densegraph<double>, double>primTree( graph );//最小生成树 
+	Prim<Densegraph<double>, double>primTree( graph );//最小生成树 
 	vector<Edge<Weight>>treePath = primTree.retAllEdge();//最小生成树的路径 
 	
 	for( int i = 0; i < treePath.size(); ++i )
@@ -138,6 +142,7 @@ void MinSpanTree( Densegraph<Weight>&graph ) {
 	cout << "weightSum: " << primTree.retWeightSum();
 }
 
+//打开测试数据文本 
 void openfileGraph( string &filePath, int sumPoint )
 {
 	using namespace graphFile;
