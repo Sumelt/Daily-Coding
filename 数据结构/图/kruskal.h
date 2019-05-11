@@ -1,74 +1,26 @@
-﻿/*----------------------------------------------------------------
+﻿/*
+ *最小生成树的另一种实现算法 
+ */
+#ifndef __KRUSKAL_H__
+#define __KRUSKAL_H__
 
-* @Author: Su
-
-* @Description: 
-
-* @Creath Date: 
-
-----------------------------------------------------------------*/
-
-#include <iostream>
-#include <cassert>
-using namespace std;
-
-namespace UFversion1 {
-const int MaxSize = 50;
-struct setType{
-	int data;
-	int parentIndx;
-	setType( int value, int father ) : data( value ), parentIndx( father ){}
-	
-};
-
-int Find( setType *Set, int value )
-{
-	int i = 0;
-	for( i; i < MaxSize && Set[ i ].data != value; ++i );
-	if( i >= MaxSize ) return -1;
-	else
-		while( Set[ Set[i].parentIndx ].parentIndx >= 0 )
-			i = Set[i].parentIndx;
-	return Set[i].parentIndx;
-}
-
-void Union( setType *Set, int value1, int value2 ) {
-	int root1 = Find( Set, value1 );
-	int root2 = Find( Set, value2 );
-	if( root1 != -1 && root2 != -1 && root2 != root1 )
-		Set[ root2 ].parentIndx = root1; //把一个集合的根节点的父亲下标设置为另一个集合的父亲下标 
-	}
-/*** test
-
-	setType Set[] = { setType( 1, -1 ), setType( 2, 0 ), setType( 3, 0 ),
-		setType( 6, -1 ), setType( 8, 3), setType( 9, 3 ) };
-	
-	Union( Set, 2, 9 );
-	
-	for( int i = 0; i < 6; ++i )
-	{
-		cout << Set[ i ].data << ' ' << Set[ i ].parentIndx << endl; 
-	}
-
-***/	
-}
-
-namespace UFversion2 {
+#include "./minHeap.h"
+namespace UFversion {
 class UnionFind{
 private:
 	int count;
 	int *array;
-	int *rank;
-	int *sz;
+	int *rank;//高度 
+	int *sz;//规模 
 	
-	//按秩归并 
+	//按秩归并 优化一：按数量规模归并 
 	void UnionElementExtent( int p, int q ) {
 		int proot = find( p );			
 		int qroot = find( q );
 		
 		if( proot == qroot )
 			return;
-		//优化一：按数量规模归并 
+		
 		if( sz[ proot ] < sz[ qroot ] ) {
 			array[ proot ] = qroot;//连接根节点 
 			sz[ qroot ] += sz[ proot ];
@@ -79,7 +31,7 @@ private:
 		}
 		
 	}
-	//优化二：按高度归并
+	//按秩归并 优化二：按高度归并
 	void UnionElementHight( int p, int q ) {
 		int proot = findOptimization2( p );			
 		int qroot = findOptimization2( q );
@@ -153,20 +105,54 @@ public:
 	}
 	
 	bool isConnect( int element1, int element2 ) {
-			return find( element1 ) == find( element2 );
+			return findOptimization1( element1 ) 
+					== findOptimization1( element2 );
 		}
 	};	
 }
 
-
-int main(int argc, char *argv[])
-{
-	using namespace UFversion2;
+template<typename Graph, typename Weight>
+class Kruskal {
+private:
+	Graph &G;
+	MinIndexHeap<Edge<Weight>>minHeap;//存放边的最小堆 
+	vector<Edge<Weight>*>toEgde;//该点对应的边  
+	vector<Edge<Weight>>saveEdge;
+	UFversion::UnionFind unionFind;
+	Weight weightSum;
+		
+public:
+	Kruskal( Graph &graph ) : G( graph ),
+		minHeap( graph.getEdgeSum() ), unionFind( graph.getEdgeSum() ) {
+		int sumVertex = graph.getPointSum();
+		for( int i = 0; i < sumVertex; ++i ) {
+			typename Graph::adjIterator iter( G, i );
+			for( Edge<Weight>*edge = iter.begin(); !iter.end(); edge = iter.next() )
+				if( edge->retV() < edge->retW() )
+					minHeap.insert( *edge );
+		}
+		
+		while( !minHeap.isEmpty() && saveEdge.size() < sumVertex - 1 ) {
+			Edge<Weight> top = minHeap.popMinItem();
+						
+			if( !unionFind.isConnect( top.retV(), top.retW() ) ) {
+				unionFind.unionElement( top.retV(), top.retW() );
+				saveEdge.push_back( top );
+				weightSum += top.retWeight();
+			}
+		}
+	}
+	~Kruskal() {
 	
-	UnionFind object( 100 );
-	object.unionElement( 2, 9 );
-	cout << object.isConnect( 2, 9 );
+	}
 	
-	return 0;
-}
+	vector<Edge<Weight>> retAllEdge() {
+		return saveEdge;
+	}
+	Weight retWeightSum() {
+		return weightSum;
+	}
+	
+};
 
+#endif

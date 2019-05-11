@@ -33,8 +33,7 @@ public:
 				saveValue[ col ] = max( leftValue, downValue ) + 
 					array[ row * cols + col ];					
 			}				
-	}
-	
+	}	
 };
 
 int main(int argc, char *argv[])

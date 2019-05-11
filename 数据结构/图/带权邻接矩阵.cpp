@@ -17,6 +17,7 @@
 #include "./Edge.h"
 #include "./lazyPrim.h"
 #include "./prim.h"
+#include "./kruskal.h"
 using namespace std;
 
 namespace AdjacencyMatrix {
@@ -132,7 +133,8 @@ using AdjacencyMatrix::Densegraph;
 template<typename Weight>
 void MinSpanTree( Densegraph<Weight>&graph ) {
 	//LazyPrim<Densegraph<double>, double>primTree( graph );//最小生成树 
-	Prim<Densegraph<double>, double>primTree( graph );//最小生成树 
+	//Prim<Densegraph<double>, double>primTree( graph );//最小生成树
+	Kruskal<Densegraph<double>, double>primTree( graph );//最小生成树	
 	vector<Edge<Weight>>treePath = primTree.retAllEdge();//最小生成树的路径 
 	
 	for( int i = 0; i < treePath.size(); ++i )

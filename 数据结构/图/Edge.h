@@ -41,7 +41,7 @@ public:
 	
 	int retOtherVertex( int vertex ) {
 		assert( vertex == v || vertex == w );
-		return ( vertex == v ? v : w );
+		return ( vertex == v ? w : v );
 	}
 	
 	friend iostream& operator << ( iostream& os, Edge edge ){
