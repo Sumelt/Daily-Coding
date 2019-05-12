@@ -153,7 +153,7 @@ void openfileGraph( string &filePath, int sumPoint )
 	//cout << comp.isConnect( 4, 3 );
 	//graph.show();
 	//Path<Sparsegraph> vertexPath( graph, 0 );
-	ShortPath<Sparsegraph> vertexPath( graph, 0 );
+	ShortPath<Sparsegraph> vertexPath( graph, 0 );//最短路径 
 	vertexPath.showPath( 6 );
 }
 
