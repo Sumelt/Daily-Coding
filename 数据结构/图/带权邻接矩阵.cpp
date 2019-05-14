@@ -18,6 +18,9 @@
 #include "./lazyPrim.h"
 #include "./prim.h"
 #include "./kruskal.h"
+#include "./Dijkstra.h"
+#include "./Topology.h"
+#include "./BellmanFord.h"
 using namespace std;
 
 namespace AdjacencyMatrix {
@@ -27,7 +30,7 @@ class Densegraph{
 	private:
 		int sumPoint;
 		int countEdge;
-		bool directed; 
+		bool directed; //true为有向 false 为无向 
 		vector< vector< Edge<Weight>* > >graph;
 	public:
 		Densegraph( int count, bool	directed ) {
@@ -134,14 +137,29 @@ template<typename Weight>
 void MinSpanTree( Densegraph<Weight>&graph ) {
 	//LazyPrim<Densegraph<double>, double>primTree( graph );//最小生成树 
 	//Prim<Densegraph<double>, double>primTree( graph );//最小生成树
-	Kruskal<Densegraph<double>, double>primTree( graph );//最小生成树	
-	vector<Edge<Weight>>treePath = primTree.retAllEdge();//最小生成树的路径 
+	//Kruskal<Densegraph<double>, double>primTree( graph );//最小生成树
 	
-	for( int i = 0; i < treePath.size(); ++i )
-		cout << treePath[ i ].retV() << " : " << treePath[ i ].retW() 
-				<< " weight: " << treePath[ i ].retWeight() << endl;
-				
-	cout << "weightSum: " << primTree.retWeightSum();
+//	vector<Edge<Weight>>treePath = primTree.retAllEdge();//最小生成树的路径 
+//	
+//	for( int i = 0; i < treePath.size(); ++i )
+//		cout << treePath[ i ].retV() << " : " << treePath[ i ].retW() 
+//				<< " weight: " << treePath[ i ].retWeight() << endl;
+//				
+//	cout << "weightSum: " << primTree.retWeightSum();
+
+	//迪杰斯特拉算法测试 
+//	Dijkstra<Densegraph<double>, double>shortPath( graph, 0 );
+//	shortPath.showPath( 4 );
+//	cout << "\nshortPath: " << shortPath.shortestPathTo( 4 ) << endl;
+
+	//拓扑测试 
+//	Topology<Densegraph<double>, double>topo( graph );
+//	cout << topo.isAcyclicGraph();
+
+	//Bellmanford算法测试 
+	BellmanFord<Densegraph<double>, double>bellman( graph, 0 );
+ 	bellman.showPath( 3 );
+ 	cout << "\nshortPath: " << bellman.shortestPathTo( 3 ) << endl;
 }
 
 //打开测试数据文本 
@@ -150,7 +168,7 @@ void openfileGraph( string &filePath, int sumPoint )
 	using namespace graphFile;
 	using namespace AdjacencyMatrix;
 
-	Densegraph<double> graph( sumPoint, false );//表示一个权值类型为double的图 
+	Densegraph<double> graph( sumPoint, false );//表示一个权值类型为double的无向图 
 	readWeightGraph<Densegraph<double>, double> gFile( graph, filePath );
 	MinSpanTree( graph );
 	//graph.show();
@@ -161,8 +179,8 @@ void openfileGraph( string &filePath, int sumPoint )
 int main(int argc, char *argv[])
 {
 	
-	int sumPoint = 8;
-	string filename = "./testWeightG1.txt";
+	int sumPoint = 5;
+	string filename = "./testNegativeG1.txt";
 	openfileGraph( filename, sumPoint );	
 	
 	return 0;

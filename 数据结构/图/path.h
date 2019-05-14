@@ -80,7 +80,8 @@ public:
 	}
 
 };
- 
+
+//BFS的运用 
 template<typename G>
 class ShortPath{
 private:
