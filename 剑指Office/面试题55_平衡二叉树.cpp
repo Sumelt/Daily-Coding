@@ -21,22 +21,31 @@ struct TreeNode {
 };
 
 class Solution {
-public:
-	int IsBalanced( TreeNode *root, int deep ) {//根节点
-		if( root == nullptr )
-			return 0;
-		int left = IsBalanced( root->left, deep );//根节点的左子树
-		int right = IsBalanced( root->right, deep );//根节点的右子树
-		
-		return 1 + ( left > right ? left : right );//根节点+左右子树中最大的深度
-	}
-    bool IsBalanced_Solution(TreeNode* pRoot) {
-		if( pRoot == nullptr ) //节点为空也是平衡树
+private:
+	bool IsBalanced_Solution(TreeNode* pRoot, int *depth) {
+		if( pRoot == nullptr ) {
+			*depth = 0;//这里就是对left或者right赋值
 			return true;
-		int left = IsBalanced( pRoot->left, 0 );//判断根节点的左子树
-		int right = IsBalanced( pRoot->right, 0 );//判断根节点的右子是
-		int res = abs( left - right );//它们差的绝对值不超过1为平衡树
-		return res > 1 ? false : true;
+		}
+			
+		int left, right;		
+		bool leftRes = IsBalanced_Solution( pRoot->left, &left );
+		bool rightRes = IsBalanced_Solution( pRoot->right, &right );
+		
+		if( !leftRes || !rightRes )//以pRoot为根节点的左右子树已经不再平衡直接返回
+			return false;
+		
+		int res = abs( left - right );//求得差值
+		*depth = 1 + ( left > right ? left : right );//这里就是对left或者right赋值
+		return res > 1 ? false : true;//判断子树是否平衡
+	}
+public:
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+		
+		if( pRoot == nullptr )
+			return true;
+		int depth = 0;
+		return IsBalanced_Solution( pRoot, &depth );
     }
 };
 
