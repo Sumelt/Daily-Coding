@@ -7,7 +7,27 @@
 using namespace std;
 
 template <typename T>
-class Array{
+class Array{	
+private:
+	int capacity;
+	T *array;
+	int size;
+	
+	//扩容 
+	void resize( int newCapacity ) {
+		int oldCapacity = capacity;
+		if( newCapacity > capacity ) {
+			T *ptr = new T[ newCapacity ]();
+			capacity = newCapacity;
+			copy( array, array + oldCapacity, ptr );//拷贝旧元素 
+			std::swap( array, ptr );			
+		}
+		else {
+			capacity = newCapacity;
+			size = oldCapacity / 4;
+		} 
+	}
+
 public:
 	Array( int count ) {
 		capacity = count;
@@ -31,7 +51,7 @@ public:
 		return capacity;
 	}
 	
-	bool empty() {
+	bool isEmpty() {
 		return size == 0;
 	}
 	
@@ -45,7 +65,7 @@ public:
 	
 	void push( int index, T element ) {
 		if( size >= capacity )
-			resize( capacity );
+			resize( capacity * 2 );
 		assert( index >= 0 && index <= size );
 		
 		for( int i = size; i > index; --i )
@@ -57,6 +77,10 @@ public:
 	T get( int index ) {
 		assert( index >= 0 && index < size );
 		return array[ index ];
+	}
+
+	T get_back() {
+		return get( size - 1 );
 	}
 	
 	void set( int index, T element ) {
@@ -117,26 +141,6 @@ public:
 				cout << ", ";
 		}
 		cout << ']'	<< endl;
-	}
-
-private:
-	int capacity;
-	T *array;
-	int size;
-	
-	//扩容 
-	void resize( int newCapacity ) {
-		int oldCapacity = capacity;
-		if( newCapacity > capacity ) {
-			T *ptr = new T[ newCapacity ]();
-			capacity = newCapacity;
-			copy( array, array + oldCapacity, ptr );//拷贝旧元素 
-			std::swap( array, ptr );			
-		}
-		else {
-			capacity = newCapacity;
-			size = oldCapacity / 4;
-		} 
 	}
 };
 
