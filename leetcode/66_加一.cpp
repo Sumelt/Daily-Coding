@@ -13,53 +13,27 @@
 #include <cassert>
 #include <stack>
 #include <algorithm>
+#include <array>
 using namespace std;
 
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        stack<int>stk;
-        vector<int>res;
-        for( auto value : digits )
-            stk.push( value );
-        bool flag = true;
-        while( !stk.empty() ) {
-        	if( flag && stk.top() + 1 >= 10 ) {
-	        	res.push_back( ( stk.top() + 1 ) % 10 );
-	        	flag = false;
-	        	stk.pop();
-	        	if( stk.empty() )
-	        		res.push_back( 1 );
-        		else {
-		        	while( !stk.empty() && stk.top() + 1 >= 10 ) {
-	        			res.push_back( ( stk.top() + 1 ) % 10 );
-	        			stk.pop();
-	        		}
-		        	if( stk.empty() )
-	        			res.push_back( 1 );
-        			else {
-			        	res.push_back( ( stk.top() + 1 ) % 10 );
-			        	res.pop();
-			        } 
-		        } 
-	        }
-            else if( flag ) {
-                res.push_back( stk.top() + 1 );
-                stk.pop();
-                flag = false;
-            }                
-            else {
-            	res.push_back( stk.top() );
-            	stk.pop();
-            }            
-        }
-        reverse( res.begin(), res.end() );
-        return res;
+		for( int i = digits.size() - 1; i >= 0; --i ) {
+			digits[ i ] = ( digits[ i ] + 1 ) % 10;
+			if( digits[ i ] != 0 )
+				return digits;
+		}
+		int cnt = digits.size() + 1;
+		int *ary = new int[ cnt ]();
+		ary[ 0 ] = 1;
+		return vector<int>( ary, ary + cnt );		
     }
 };
 
 int main(int argc, char *argv[])
 {
-	
+	vector<int>array;
+	cout << array.capacity();
 	return 0;
 }
