@@ -11,21 +11,16 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include "./queue.h"
-#include "./loopQueue.h"
-using namespace std;
+#include "./linkList.h"
+
 int main(int argc, char *argv[])
 {
-	LoopQueue<int>que;	
+	List<int>list;	
 	for( int i = 0; i < 10; ++i )
-		que.Push( i );
-	que.Print();
-	que.Push( 20 );
-	que.Print();
-	que.Pop();
-	que.Print();
-	cout << que.Front() << endl;
-	cout << que.Size() << endl;
-	cout << que.IsFull() << endl;
+		list.InsertBack( i );
+	list.Insert( 20, 3 );
+	list.Print();
+	cout << list.Find( 5 ) << endl;
+	cout << list.Get( 4 );
 	return 0;
 }
