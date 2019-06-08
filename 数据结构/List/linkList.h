@@ -42,6 +42,9 @@ public:
 	bool Contain( T element );
 	int Find( T element );
 	void Print();
+	T remove( int index );
+	T removeFront();
+	T removeBack();
 		
 };
 
@@ -53,7 +56,13 @@ List<T>::List() {
 
 template<typename T>
 List<T>::~List() {
-	delete dummyHead;
+	Node *cur = dummyHead;
+	Node *temp = nullptr;
+	while( cur != nullptr ) {
+		temp = cur;
+		cur = cur->next;
+		delete temp;
+	}
 }
 
 template<typename T>
@@ -133,6 +142,33 @@ int List<T>::Find( T element ) {
 template<typename T>
 bool List<T>::Contain( T element ) {
 	return ( Find( element ) == true ? true : false );
+}
+
+template<typename T>
+T List<T>::remove( int index ) {
+	assert( index >= 0 && index < size );
+	Node *pre = dummyHead;
+	Node *after = nullptr;
+	
+	for( int i = 0; i < index; ++i ) {
+		pre = pre->next;
+	}
+	
+	after = pre->next;
+	T ret = after->val;	
+	pre->next = after->next;
+	--size;
+	return ret;
+}
+
+template<typename T>
+T List<T>::removeBack() {
+	return remove( size - 1 );
+}
+
+template<typename T>
+T List<T>::removeFront() {
+	return remove( 0 );
 }
 
 template<typename T>
