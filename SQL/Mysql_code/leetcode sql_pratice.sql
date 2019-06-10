@@ -19,4 +19,4 @@ where Id not in
         from Person 
         group by Email
     ) as p
-)
+);
