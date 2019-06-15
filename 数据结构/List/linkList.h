@@ -141,7 +141,7 @@ int List<T>::Find( T element ) {
 
 template<typename T>
 bool List<T>::Contain( T element ) {
-	return ( Find( element ) == true ? true : false );
+	return ( Find( element ) != -1 ? true : false );
 }
 
 template<typename T>
