@@ -11,23 +11,25 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include "./SetLinkList.h" 
+#include "./MapLinkList.h"
 #include "../openFile.h"
 using namespace std;
 
-
 void openTXTFile(){
-		SetLinkList<string> set;
+		MapLinkList<string, int> map;
 		string filePath = "./pride-and-prejudice.txt";
 		vector<string>words;
 		
-		opfile::openfile( filePath, words );//打开圣经文本
+		opfile::openfile( filePath, words );
 		cout << "all words: " << words.size() << endl;
 		
 		for( auto iters = words.begin(); iters != words.end(); ++iters ) {
-			set.add( *iters );
+			map.add( *iters, 1 );
 		}
-		cout << "after handle words: " << set.size() << endl;
+
+		cout << "after handle words: " << map.getSize() << endl;
+		cout << "pride sum : " << map.get( "pride" ) << endl;
+		//map.set( "melt", 2 );
 }
 
 int main(int argc, char *argv[])

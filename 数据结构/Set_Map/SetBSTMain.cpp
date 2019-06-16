@@ -17,7 +17,7 @@ using namespace std;
 
 void openTXTFile(){
 		SetBST<string, int> set;
-		string filePath = "../Find/bible.txt";
+		string filePath = "../Set_Map/pipe.txt";
 		vector<string>words;
 		
 		opfile::openfile( filePath, words );//打开圣经文本

@@ -15,7 +15,7 @@ using namespace BSTversion2;
 
 void findWord( const string& str ){
 		BST<string, int> tree;
-		string filePath = "./bible.txt";
+				string filePath = "../Set_Map/pride-and-prejudice.txt";
 		vector<string>words;
 		
 		opfile::openfile( filePath, words );//打开圣经文本 
@@ -42,7 +42,7 @@ void findWord( const string& str ){
 
 int main(int argc, char *argv[])
 {	
-	findWord( "melt" );
+	findWord( "pride" );
 
 	return 0;
 }
