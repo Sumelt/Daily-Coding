@@ -29,9 +29,22 @@ void openTXTFile(){
 	}
 
 	cout << "after handle words: " << map.size() << endl;
-	cout << "pride sum : " << *map.search( "pride" ) << endl;
+//	cout << "pride sum : " << *map.search( "pride" ) << endl;
 	cout << "is BSTree: " << map.isBSTree() << endl; 
-	cout << "is Blanced: " << map.isBlanced() << endl; 
+	cout << "is Blanced: " << map.isBlanced() << endl;
+//	
+	for( auto value : words ) {
+		map.removeNode( value );
+		if( !map.isBSTree() ) {
+			throw ( runtime_error( "isBSTree error" ) );
+		}
+		
+		if( !map.isBlanced() ) {
+			throw ( runtime_error( "isBlanced error" ) );
+		}		
+	}
+	cout <<"now size: " << map.size() << endl;
+	 
 }
 
 int main(int argc, char *argv[])
