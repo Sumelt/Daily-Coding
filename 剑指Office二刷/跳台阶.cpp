@@ -11,16 +11,19 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include <queue>
-#include <algorithm>
 using namespace std;
 
 class Solution {
-private:
-	priority_queue<int, vector<int>, greater<int>>pque;
 public:
-    int thirdMax(vector<int>& nums, int k = 3 ) {
-        
+    int jumpFloor(int number) {
+  		vector<int>array = { 0, 1, 2 };
+  		
+  		if( number < 3 )
+  			return array[ number ];
+		for( int i = 3; i <= number; ++i )
+			array.push_back( array[ i - 2 ] + array[ i - 1 ] );
+  		
+  		return array[ number ];
     }
 };
 

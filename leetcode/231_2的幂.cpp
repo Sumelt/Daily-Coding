@@ -11,16 +11,14 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include <queue>
-#include <algorithm>
 using namespace std;
 
 class Solution {
-private:
-	priority_queue<int, vector<int>, greater<int>>pque;
 public:
-    int thirdMax(vector<int>& nums, int k = 3 ) {
-        
+    bool isPowerOfTwo(int n) {
+    	if( n <= 0 )
+    		return false;
+        return ( ( n & ( n - 1 ) ) == 0 ? true : false );
     }
 };
 

@@ -11,16 +11,17 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include <queue>
-#include <algorithm>
 using namespace std;
 
 class Solution {
-private:
-	priority_queue<int, vector<int>, greater<int>>pque;
 public:
-    int thirdMax(vector<int>& nums, int k = 3 ) {
-        
+    int hammingWeight(uint32_t n) {
+        int count = 0;
+        while( n != 0 ) {
+        	n = n & ( n - 1 );
+        	++count;
+        }
+        return count;
     }
 };
 
