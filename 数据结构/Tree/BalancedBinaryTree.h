@@ -230,38 +230,38 @@ template <typename Key, typename Value>
 typename AVLTree<Key, Value>::Node* 
 AVLTree<Key, Value>::rightRotate( Node* root ) {
 	
-	Node* rootLeft = root->left;
-	Node* node = rootLeft->right;
+	Node* leftNode = root->left;
+	Node* node = leftNode->right;
 	
-	rootLeft->right = root;//成为新的根节点 
+	leftNode->right = root;//成为新的根节点 
 	root->left = node;
 	
 	//先更新原先的root高度
 	root->height = 1 + 
 		max( getHeight( root->left ), getHeight( root->right ) ); 
 	//后更新新的rootleft
-	rootLeft->height = 1 + 
-		max( getHeight( rootLeft->left ), getHeight( rootLeft->right ) );
+	leftNode->height = 1 + 
+		max( getHeight( leftNode->left ), getHeight( leftNode->right ) );
 
-	return rootLeft;//返回新的根节点 
+	return leftNode;//返回新的根节点 
 } 
 
 template <typename Key, typename Value>
 typename AVLTree<Key, Value>::Node* 
 AVLTree<Key, Value>::leftRotate( Node* root ) {
-	Node* rootRight = root->right;
-	Node* node = rootRight->left;
+	Node* rightNode = root->right;
+	Node* node = rightNode->left;
 	
-	rootRight->left = root;
+	rightNode->left = root;
 	root->right = node;
 	
 	root->height = 1 + 
 		max( getHeight( root->left ), getHeight( root->right ) );
 	
-	rootRight->height = 1 + 
-		max( getHeight( rootRight->left ), getHeight( rootRight->right ) );
+	rightNode->height = 1 + 
+		max( getHeight( rightNode->left ), getHeight( rightNode->right ) );
 	
-	return rootRight;	
+	return rightNode;	
 }
 
 template <typename Key, typename Value>
