@@ -24,7 +24,6 @@ private :
 	void destory( Node *root );
 	Node* leftRotate( Node *root );
 	Node* rightRotate( Node *root );
-	Node* removeNode( Node *node, Key key );
 	bool contain( Node *root, Key key );
 	void flipColors( Node *node );
 	Value *search( Node *root, Key key );
