@@ -34,7 +34,9 @@ public:
 	virtual ~Duck();
 	void performFly();
 	void performQuack();
-	void performSwim();//所有的鸭子都会叫，属于公有部分 
+	void performSwim();//所有的鸭子都会叫，属于公有部分
+	void setFlyBehavior( Fly *newFlyWay );//封装方法，使得算法独立于使用模块 
+	void setQuackBehavior( Quack *newQuackWay ); 
 };
 
 Duck::~Duck() {
@@ -54,12 +56,27 @@ void Duck::performSwim() {
 	cout << "all duck can swimming" << endl;
 }
 
+void Duck::setQuackBehavior( Quack *newQuackWay ) {
+	quackBehavior = newQuackWay;
+}
+
+void Duck::setFlyBehavior( Fly *newFlyWay ) {
+	flyBehavior = newFlyWay;
+} 
+
 //**********************// 
 //自定义飞行动作类 
 class FlyWithWind : public Fly {
 public:
 	void fly() {
-		cout << "I can Fly" << endl;
+		cout << "I can Fly with wind" << endl;
+	}
+};
+
+class FlyWithRock : public Fly {
+public:
+	void fly() {
+		cout << "I can Fly with rock" << endl;
 	}
 };
 
@@ -90,5 +107,7 @@ int main(int argc, char *argv[])
 	mduck.performFly();
 	mduck.performQuack();
 	mduck.performSwim();
+	mduck.setFlyBehavior( new FlyWithRock() );
+	mduck.performFly();
 	return 0;
 }
