@@ -14,9 +14,9 @@
 using namespace std;
 int main(int argc, char *argv[])
 {
-//	map <char,int>mp;
-//	mp['a'] = 2;
-//	mp['b'] = 3;
+	map <char,int>mp;
+	mp['a'] = 2;
+	mp['b'] = 3;
 //	mp['c'] = 56;
 //	mp['1'] = 2;
 //	map <char,int>::iterator it;
@@ -29,7 +29,11 @@ int main(int argc, char *argv[])
 //	mp.erase(it,mp.end());
 //	//mp.erase('a');
 //	cout<<endl<<':'<<mp.size();
-	std::unordered_set <int> my;
+//	std::unordered_set <int> my;
+	if( mp.insert( pair<char, int>('k', 33) ).second == false ) 
+		cout << "false"  << endl;
+	else cout << "success" << endl;
+	
 	return 0;
 }
 
