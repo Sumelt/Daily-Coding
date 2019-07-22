@@ -49,7 +49,7 @@ namespace qSortVersion1{
 	}		
 }
 
-//一路快排 
+//固定主元一路快排 
 namespace qSortVersion2{
 	
 	int _parttion( int *array, int beginIndex, int endIndex ) {
@@ -84,7 +84,7 @@ namespace qSortVersion2{
 	}
 }
 
-//随机主元快排
+//随机主元一路快排
 namespace qSortVersion3{
 	int _parttion( int *array, int beginIndex, int endIndex ) {
 		
@@ -119,7 +119,7 @@ namespace qSortVersion3{
 	}
 }
 
-//随机主元+二路快排 
+//随机主元二路快排 
 namespace qSortVersion4{
 	int _parttion( int *array, int beginIndex, int endIndex ) {
 		
@@ -194,6 +194,60 @@ namespace qSortVersion5 {
 		
 	}	
 }
+
+//再次写快排 2019-07-22
+//主要写固定主元的一路快排和固定主元的二路快排
+class myQsort{
+private:
+//一路快排
+	int partiton_of_one( int *array, int beginIndex, int endIndex ) {
+		int keyValue = array[ beginIndex ];
+		int lastLessKeyIndex = beginIndex;//最后一个小于主元的位置很重要 
+		int curIndex = beginIndex + 1;
+		
+		for( curIndex; curIndex <= endIndex; ++curIndex ) {
+			if( array[ curIndex ] < keyValue )
+				swap( array[ curIndex ], array[ ++lastLessKeyIndex ] );
+		}
+	 	swap( array[ beginIndex ], array[ lastLessKeyIndex ] );
+	 	
+	 	return lastLessKeyIndex;
+	} 
+
+//二路快排 
+	int partiton_of_two( int *array, int beginIndex, int endIndex ) {
+		int keyValue = array[ beginIndex ];
+		int curLeftIndex = beginIndex + 1;
+		int curRightIndex = endIndex;
+		
+		while( true ) {
+			while( curLeftIndex <= curRightIndex && array[ curLeftIndex ] < keyValue )
+				++curLeftIndex;
+			while( curLeftIndex <= curRightIndex && array[ curRightIndex ] > keyValue )
+				--curRightIndex;
+				
+			if( curLeftIndex <= curRightIndex )
+				swap( array[ curLeftIndex ], array[ curRightIndex ] );
+			else break;
+		}
+		swap( array[ beginIndex ], array[ curRightIndex ] );
+		return curRightIndex;
+	} 
+
+private:
+	void _qsort( int *array, int beginIndex, int endIndex ) {
+		if( beginIndex > endIndex )
+			return ;
+		int keyIndex = 	partiton_of_one( array, beginIndex, endIndex );
+		_qsort( array, beginIndex, keyIndex - 1 );
+		_qsort( array, keyIndex + 1, endIndex );
+	}
+
+public:
+	void qsort( int *array, int length ) {
+		_qsort( array, 0, length - 1 );
+	}	
+};
 
 int main(int argc, char *argv[])
 {
