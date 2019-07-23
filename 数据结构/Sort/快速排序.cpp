@@ -9,6 +9,8 @@
 ----------------------------------------------------------------*/
 
 #include <iostream>
+#include <map>
+#include <stack>
 #include "..\random_number.h"
 using namespace std;
 
@@ -227,7 +229,7 @@ private:
 				--curRightIndex;
 				
 			if( curLeftIndex <= curRightIndex )
-				swap( array[ curLeftIndex ], array[ curRightIndex ] );
+				swap( array[ curLeftIndex++ ], array[ curRightIndex-- ] );
 			else break;
 		}
 		swap( array[ beginIndex ], array[ curRightIndex ] );
@@ -235,26 +237,55 @@ private:
 	} 
 
 private:
+	//递归版本 
 	void _qsort( int *array, int beginIndex, int endIndex ) {
 		if( beginIndex > endIndex )
 			return ;
-		int keyIndex = 	partiton_of_one( array, beginIndex, endIndex );
+		int keyIndex = 	partiton_of_two( array, beginIndex, endIndex );
 		_qsort( array, beginIndex, keyIndex - 1 );
 		_qsort( array, keyIndex + 1, endIndex );
 	}
-
+	//非递归版本
+	void _qsort_NR( int *array, int beginIndex, int endIndex ) {
+		map<string, int>mp;
+		mp[ string( "beginIndex" ) ] = beginIndex;
+		mp[ string( "endIndex" ) ] = endIndex;
+		stack<map<string, int>>mainStack;
+		mainStack.push( mp );
+		
+		while( !mainStack.empty() ) {
+			auto kv = mainStack.top();
+			mainStack.pop();
+			int keyIndex = partiton_of_two( array, kv[ "beginIndex" ], kv[ "endIndex" ] );
+			if( kv[ "beginIndex" ] < keyIndex - 1 ) {
+				map<string, int>leftmap;
+				leftmap[ string( "beginIndex" ) ] = beginIndex;
+				leftmap[ string( "endIndex" ) ] = keyIndex - 1;
+				mainStack.push( leftmap );
+			}
+			else if( keyIndex + 1 < kv[ "endIndex" ] ) {
+				map<string, int>rightmap;
+				rightmap[ string( "beginIndex" ) ] = keyIndex + 1;
+				rightmap[ string( "endIndex" ) ] = endIndex;
+				mainStack.push( rightmap );				
+			}
+		}		
+	}
 public:
 	void qsort( int *array, int length ) {
-		_qsort( array, 0, length - 1 );
+		_qsort_NR( array, 0, length - 1 );
 	}	
 };
 
 int main(int argc, char *argv[])
 {
 	int length = 600000;
-	int *ary = Generate_random_numbers( 0, 50, length );
-	testSort( "qsort", qSortVersion5::qSort, ary, length );
-	
+	int *ary = Generate_random_numbers( 0, 10, length );
+	//testSort( "qsort", qSortVersion5::qSort, ary, length );
+	myQsort myq;
+	myq.qsort( ary, 10 );
+	for( int i = 0; i < 10; ++i )
+		cout << ary[ i ] << ' ';
 	delete []ary;
 	
 	return 0;
