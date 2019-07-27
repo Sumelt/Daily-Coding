@@ -57,12 +57,13 @@ public:
 			return;
 		
 		if( head == node ) {
+			head->last = nullptr;			
 			head = head->next;
-			head->last = nullptr;
 		}
 		else {
 			node->last->next = node->next;
-			node->next->last = node->last;
+			if( node->next != nullptr )
+				node->next->last = node->last;
 		}
 		node->last = tail;
 		node->next = nullptr;
@@ -99,7 +100,7 @@ template<typename K, typename V>
 class Cache {
 private:
 	map<Node<V>, K, cmp<V>> *nodeToKeyMap;
-	map<K, Node<V>> *keyToNodeMap;
+	map<K, Node<V>&> *keyToNodeMap;
 	DoubleLinkList<V> *nodeList;
 	int capacity;
 public:	
@@ -115,7 +116,7 @@ public:
 public:
 	Cache( int size ) {
 		nodeToKeyMap = new map<Node<V>, K, cmp<V>>();
-		keyToNodeMap = new map<K, Node<V>>();
+		keyToNodeMap = new map<K, Node<V>&>();
 		nodeList = new DoubleLinkList<V>();
 		capacity = size;
 	}
@@ -138,19 +139,27 @@ public:
 		}
 		else {
 			Node<V> *newNode = new Node<V>( val );
-			( *nodeToKeyMap )[ *newNode ] = key;
-			( *keyToNodeMap )[ key ] = *newNode;
+			
+			nodeToKeyMap->insert( pair<Node<V>, K>( *newNode, key ) );
+			keyToNodeMap->insert( pair<K, Node<V>&>( key, *newNode ) );
 			nodeList->addNode( newNode );
+			
 			if( keyToNodeMap->size() > capacity )
 				removeMostUnusedCache();
 		}
-	}
-	
+	}	
 };
 
 int main(int argc, char *argv[])
 {
 	Cache<int, int>mycache( 3 );
 	mycache.set( 1, 3 );
+	mycache.set( 4, 2 );
+	mycache.set( 5, 6 );
+	mycache.set( 7, 8 );
+	int *value = mycache.get( 7 );
+	if( value != nullptr )
+		cout << *value;
+	else cout << "lost";
 	return 0;
 }
