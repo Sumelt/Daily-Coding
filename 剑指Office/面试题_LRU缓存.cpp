@@ -13,6 +13,7 @@
 #include <cassert>
 #include <unordered_map>
 #include <map>
+#include <list>
 using namespace std;
 
 //构建双向链表的节点
@@ -110,7 +111,7 @@ template<typename K, typename V>
 class Cache {
 private:
 	map<Node<V>, K, cmp<V>> *nodeToKeyMap;//节点到键的map
-	map<K, Node<V>&> *keyToNodeMap;//键到节点的map
+	map<K, Node<V>&> *keyToNodeMap;//键到节点的map，注意：值是引用类型 
 	DoubleLinkList<V> *nodeList;//双向链表
 	int capacity;//缓存的容量
 private:	
@@ -157,7 +158,7 @@ public:
 			
             //nodeToKeyMap插入的是节点的副本
 			nodeToKeyMap->insert( pair<Node<V>, K>( *newNode, key ) );
-            //keyToNodeMap中插入的是节点的引用
+            //keyToNodeMap中插入的是新节点的引用
 			keyToNodeMap->insert( pair<K, Node<V>&>( key, *newNode ) );
 			nodeList->addNode( newNode );
 			
@@ -168,16 +169,73 @@ public:
 	}	
 };
 
+//使用STL容器 
+class CacheLRU {
+
+private:
+	struct Node {
+		int key;
+		int value;
+		Node( int k, int v ) : key( k ), value( v ){}
+	};
+	list<Node> linkList;//头部表示活跃，尾部表示不活跃 
+	unordered_map<int, list<Node>::iterator> keyToNodeMap;//这里值是迭代器 
+	int capacity;
+
+public:
+	CacheLRU( int n ) : capacity( n ) {}
+	
+	int get( int k ) {
+		auto mapIter = keyToNodeMap.find( k );
+		
+		if( mapIter == keyToNodeMap.end() ) 
+			return -1;
+		
+		int res = mapIter->second->value;//拿到节点的迭代器后再拿value 
+		linkList.splice( linkList.begin(), linkList, iter->second );//接合 
+		keyToNodeMap[ k ] = linkList.begin();//更新迭代器 
+		
+		return res;
+	}
+
+	void set( int k, int v ) {
+		//更新元素 
+		if( keyToNodeMap.find( k ) != keyToNodeMap.end() ) {
+			keyToNodeMap[ k ]->value = v;
+			linkList.splice( linkList.begin(), linkList, keyToNodeMap[ k ] );
+			keyToNodeMap[ k ] = linkList.begin();			
+		}
+		else {
+			//容量已满 
+			if( keyToNodeMap.size() == capacity ) {
+				keyToNodeMap.erase( linkList.back().key );//剔除尾部 
+				linkList.pop_back();//剔除 
+			}
+			//新元素插入 
+			linkList.push_front( Node( k, v ) );
+			keyToNodeMap[ k ] = linkList.begin();
+		}
+	}
+};
+
 int main(int argc, char *argv[])
 {
-	Cache<int, int>mycache( 3 );
-	mycache.set( 1, 3 );
-	mycache.set( 4, 2 );
-	mycache.set( 5, 6 );
-	mycache.set( 7, 8 );
-	int *value = mycache.get( 7 );
-	if( value != nullptr )
-		cout << *value;
-	else cout << "lost";
+//	Cache<int, int>mycache( 3 );
+//	mycache.set( 1, 3 );
+//	mycache.set( 4, 2 );
+//	mycache.set( 5, 6 );
+//	mycache.set( 7, 8 );
+//	int *value = mycache.get( 7 );
+//	if( value != nullptr )
+//		cout << *value;
+//	else cout << "lost";
+
+	CacheLRU cache( 3 );
+	cache.set( 1, 2 );
+	cache.set( 3, 4 );
+	cache.set( 6, 7 );
+	cache.set( 8, 9 );
+	cout << cache.get( 8 );
+	
 	return 0;
 }
