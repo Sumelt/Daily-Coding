@@ -34,13 +34,13 @@ public:
 					|| judgePath( matrix, str, row, col + 1, strIndex, visted )
 					|| judgePath( matrix, str, row, col - 1, strIndex, visted );
 			
-						if( !hasPath ) {
-					--strIndex;
-					visted[ tempIndex ] = false;
+				if( !hasPath ) {
+						--strIndex;
+						visted[ tempIndex ] = false;
 				}	
 			}
 
-			return hasPath;
+		return hasPath;
 	} 
 		
     bool hasPath(char* matrix, int rows, int cols, char* str)

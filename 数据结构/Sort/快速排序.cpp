@@ -74,7 +74,7 @@ namespace qSortVersion2{
 		if( beginIndex >= endIndex ) //递归边界
 			return;
 		int keyIndex = _parttion( array, beginIndex, endIndex );
-		_qsort( array, beginIndex, keyIndex );
+		_qsort( array, beginIndex, keyIndex - 1 );
 		_qsort( array, keyIndex + 1, endIndex );
 		
 	}
