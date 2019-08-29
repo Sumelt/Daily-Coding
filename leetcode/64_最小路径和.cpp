@@ -34,6 +34,28 @@ private:
 		}
 		return dp[ grid.size() - 1 ][ grid[ 0 ].size() - 1 ];
 	}
+	
+	int findWithSpaceCompress( vector<vector<int>>& grid ) {
+		int rows = grid.size(), cols = grid[ 0 ].size();
+		int less = min( rows, cols );
+		int more = max( rows, cols );
+		bool standard = rows >= cols ? true : false;//判断是更新行还是列 
+		
+		int dp[ less ] = { 0 };
+		dp[ 0 ] = grid[ 0 ][ 0 ];
+		
+		//计算第一列或者是第一行 
+		for( int i = 1; i < less; ++i ) 
+			dp[ i ] = dp[ i - 1 ] + ( standard ? grid[ 0 ][ i ] : grid[ i ][ 0 ] );
+		
+		for( int i = 1; i < more; ++i ) {
+			dp[ 0 ] = dp[ 0 ] + ( standard ? grid[ i ][ 0 ] : grid[ 0 ][ i ] );
+			for( int k = 1; k < less; ++k ) 
+				dp[ k ] = ( standard ? grid[ i ][ k ] : grid[ k ][ i ] ) + 
+					min( dp[ k ], dp[ k - 1 ] );
+		} 
+		return dp[ less - 1 ];
+	} 
 public:
     int minPathSum(vector<vector<int>>& grid) {
         if( grid.size() == 0 || grid[ 0 ].size() == 0 )
