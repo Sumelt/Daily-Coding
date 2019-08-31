@@ -22,7 +22,7 @@ private:
 	int *array = nullptr;
 	void Split( int sumCount ) {
 		for( int point = 1; point <= maxPoints; ++point )
-			SplitCal( sumCount, sumCount, point );//第一个骰子的点数
+			SplitCal( sumCount, sumCount, point );//第一个骰子的点数:头 
 	}
 	void SplitCal( int sumCount, int curCount, int reSum ) {//骰子总数 当前剩余骰子个数 累加和
 		if( curCount == 1 ) { //该堆只有一个骰子
@@ -30,7 +30,7 @@ private:
 			return;
 		}			
 		for( int point = 1; point <= maxPoints; ++point )
-			SplitCal( sumCount, curCount - 1, reSum + point );//不断分成两堆
+			SplitCal( sumCount, curCount - 1, reSum + point );//子的点数,不断分成两堆
 	}
 public:
     void printProbability( int sumCount ) {
