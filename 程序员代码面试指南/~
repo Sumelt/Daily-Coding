@@ -1,0 +1,39 @@
+/*----------------------------------------------------------------
+
+* @Author: Su
+
+* @Description: 
+
+* @Creath Date:
+
+----------------------------------------------------------------*/
+
+//#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <cassert>
+using namespace std;
+
+class Base {
+private:
+
+public:
+	virtual void func(){
+		
+	}
+	virtual ~Base(){
+		
+	}
+};
+
+class dev : public Base {
+public:
+	
+	
+};
+
+int main(int argc, char *argv[])
+{
+	
+	return 0;
+}

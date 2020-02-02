@@ -11,7 +11,7 @@
 #include <iostream>
 using namespace std;
 
-namespace shellsort{
+namespace shellsort {
 void ShellSortUp( char *array, int N ) {
 	int Increment[] = { 1, 5, 19 };
 	int IncremenCount = sizeof(Increment) / sizeof( *Increment ); //增量的个数 
@@ -19,7 +19,7 @@ void ShellSortUp( char *array, int N ) {
 	{
 		int IncrementNumber = Increment[ IncremenCount - 1 ];
 
-		for( int startIndex = IncrementNumber ; startIndex < N; startIndex += IncrementNumber ) //能摸的牌数 
+		for( int startIndex = IncrementNumber ; startIndex < N; startIndex++ ) //能摸的牌数 
 		{
 			char tmp = array[ startIndex ];
 			int trueIndex = startIndex;			
@@ -34,7 +34,7 @@ void ShellSortUp( char *array, int N ) {
 //原始希尔排序 
 void ShellSort( char *array, int N ) {
 		for( int up = 8; up >= 1; up /= 2 ) {
-			for( int i = up; i < N; i += up ) //能摸的牌个数 
+			for( int i = up; i < N; i++ ) //能摸的牌个数 
 			{
 				char temp = array[ i ]; //摸第二张 
 				int index = i;			
@@ -50,7 +50,12 @@ void ShellSort( char *array, int N ) {
 
 int main(int argc, char *argv[])
 {
+	using namespace shellsort;
+	char array[] = { 'e', 'a', 'f', 'c', 'd' };
+	ShellSort( array, 5 );
 	
+	for( int i = 0; i < 5; ++i )
+		cout << array[ i ] << ends;
 		
 	return 0;
 }

@@ -37,8 +37,10 @@ void Merge( int *array, int Lindex, int Rindex, int Rend )
 
 int main(int argc, char *argv[])
 {
-	int array[]	= {	12, 99, 77 };
-	Merge( array, 0, 1, sizeof(array)/sizeof(*array)-1 );
+	int array[]	= {	12, 99, 77, 7, 2, 3 };
+	int N = sizeof( array )/sizeof( *array );
+	int mid = ( N - 1 ) >> 1;
+	Merge( array, 0, mid, N );
 	auto start = begin( array );
 	auto last = end( array );
 	while( start != last )
