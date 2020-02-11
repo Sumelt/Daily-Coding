@@ -15,7 +15,7 @@
 using namespace std;
 
 
-class MenuIter {
+class MenuItem {
 private:
 	string m_name;
 	string m_description;
@@ -23,13 +23,13 @@ private:
 	double m_price;
 	 
 public:
-	MenuIter( const string &name, const string &description, bool vegetarian, double price ) {
+	MenuItem( const string &name, const string &description, bool vegetarian, double price ) {
 		this->m_name = name;
 		this->m_description = description;
 		this->m_vegetarian = vegetarian;
 		this->m_price = price;
 	}
-	MenuIter() = default;
+	MenuItem() = default;
 	
 	string getName() {
 		return m_name;
@@ -52,7 +52,7 @@ public:
 class Iterator {
 public:
 	virtual bool hasNext() = 0;
-	virtual MenuIter next() = 0;
+	virtual MenuItem next() = 0;
 	
 };
 
@@ -60,9 +60,9 @@ public:
 class PancakeHouseMenuIterator : public	Iterator {
 private:
 	int index = 0;
-	vector<MenuIter*> m_arrayList; 
+	vector<MenuItem*> m_arrayList; 
 public:
-	PancakeHouseMenuIterator( vector<MenuIter*> &arrayList ) {
+	PancakeHouseMenuIterator( vector<MenuItem*> &arrayList ) {
 		m_arrayList = arrayList;
 	}
 	bool hasNext() {
@@ -70,7 +70,7 @@ public:
 			return true;
 		return false;
 	}
-	MenuIter next() {
+	MenuItem next() {
 		return *( m_arrayList[ index++ ] );
 	}
 };
@@ -78,7 +78,7 @@ public:
 //餐厅A 
 class PancakeHouseMenu {
 private:
-	vector<MenuIter*>m_arrayList;
+	vector<MenuItem*>m_arrayList;
 public:
 	PancakeHouseMenu() {
 		addItem( "bule pancake", "with eage, sugar", false, 2.99 );
@@ -86,10 +86,10 @@ public:
 	}
 	
 	void addItem( const string &name, const string &desciption, bool vegetarian, double price ) {
-		MenuIter *item = new MenuIter( name, desciption, vegetarian, price );
+		MenuItem *item = new MenuItem( name, desciption, vegetarian, price );
 		m_arrayList.push_back( item );
 	}
-	vector<MenuIter*> getMenuItems() {
+	vector<MenuItem*> getMenuItems() {
 		return m_arrayList;
 	}
 	int getLength() {
@@ -110,13 +110,13 @@ public:
 class DinerMenuIterator : public Iterator {
 private:
 	int index = 0;
-	MenuIter *m_array;
+	MenuItem *m_array;
 public:
 	//传入一个菜单 
-	DinerMenuIterator( MenuIter *array ) : m_array( array ) {}
+	DinerMenuIterator( MenuItem *array ) : m_array( array ) {}
 	//获得下一个项目项
-	MenuIter next() {
-		MenuIter p_res = m_array[ index ];
+	MenuItem next() {
+		MenuItem p_res = m_array[ index ];
 		++index;
 		return p_res;
 	}
@@ -133,10 +133,10 @@ class DinerMenu  {
 private:
 	static int m_MaxCount;
 	int m_index = 0;
-	MenuIter *m_array;
+	MenuItem *m_array;
 public:
 	DinerMenu() {
-		m_array = new MenuIter[ m_MaxCount ]();
+		m_array = new MenuItem[ m_MaxCount ]();
 		addItem( "green Diner", "with eage, sugar", true, 3.00 );
 		addItem( "yyyy Diner", "coool", true, 3.00 );
 	}
@@ -145,7 +145,7 @@ public:
 	}
 
 	void addItem( const string &name, const string &desciption, bool vegetarian, double price ) {
-		MenuIter *item = new MenuIter( name, desciption, vegetarian, price );
+		MenuItem *item = new MenuItem( name, desciption, vegetarian, price );
 		if( m_index < DinerMenu	::m_MaxCount ) {
 			m_array[ m_index ] = *item;
 			++m_index;
@@ -175,7 +175,7 @@ private:
 	//通用迭代器 
 	void printMenu( Iterator *iterator ) {
 		while( iterator->hasNext() )	 {
-			MenuIter iter = iterator->next();
+			MenuItem iter = iterator->next();
 			cout << iter.getName() << ' ' << iter.getDescription() << ' '
 				<< iter.getPrice() << endl;
 		}
