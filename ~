@@ -1,0 +1,3 @@
+#ifndef ttt
+int b = 3;
+#endif
