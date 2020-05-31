@@ -1,19 +1,9 @@
-﻿/*----------------------------------------------------------------
-
-* @Author: Su
-
-* @Description: 
-
-* @Creath Date:
-
-----------------------------------------------------------------*/
-
-#include <iostream>
+﻿#include <iostream>
 #include <algorithm>
 #include <vector>
 #include <cassert>
-using namespace std;
 
+using namespace std;
 template <typename T>
 class Merger{
 private:
@@ -56,25 +46,25 @@ private:
 	}
 	
 	void update( int treeRootIndex, int treeLeftIndex, int treeRightIndex, int setIndex, T val ) {
-	    if( treeLeftIndex == treeRightIndex ) {
-	        m_ptr_tree[ treeRootIndex ] = val;//元素被修改，必定牵连父子节点的信息 
-	        return ;
-	    }
-	
-	    int treeMidIndex = treeLeftIndex + ( treeRightIndex - treeLeftIndex ) / 2;//线段树的中点
-	    int leftChildIndex = getLeftChildIndex( treeRootIndex );//左子树索引
-	    int rightChildIndex = getRightChildIndex( treeRootIndex );//右子树索引
-	
-	    //线段树中节点就是区间的位置，利用二分法判断
-	    if( setIndex >= treeMidIndex + 1 )
-	        update( rightChildIndex, treeMidIndex + 1, treeRightIndex, setIndex, val );
-	    else	
-	        update( leftChildIndex, treeLeftIndex, treeMidIndex, setIndex, val );
-	
-	    //更新父节点的业务信息	
-	    m_ptr_tree[ treeRootIndex ] = 
-	        m_ptr_merger->merge( m_ptr_tree[ leftChildIndex ], m_ptr_tree[ rightChildIndex ] );
-	
+		if( treeLeftIndex == treeRightIndex ) {
+			m_ptr_tree[ treeRootIndex ] = val;//元素被修改，必定牵连父子节点的信息 
+			return ;
+		}
+		
+		int treeMidIndex = treeLeftIndex + ( treeRightIndex - treeLeftIndex ) / 2;//线段树的中点
+		int leftChildIndex = getLeftChildIndex( treeRootIndex );//左子树索引
+		int rightChildIndex = getRightChildIndex( treeRootIndex );//右子树索引
+		
+		//线段树中节点就是区间的位置 
+		if( setIndex >= treeMidIndex + 1 )
+			update( rightChildIndex, treeMidIndex + 1, treeRightIndex, setIndex, val );
+		else	
+			update( leftChildIndex, treeLeftIndex, treeMidIndex, setIndex, val );
+			
+		//更新父节点的业务信息	
+		m_ptr_tree[ treeRootIndex ] = 
+			m_ptr_merger->merge( m_ptr_tree[ leftChildIndex ], m_ptr_tree[ rightChildIndex ] );
+		
 	}
 	
 public:
@@ -148,18 +138,26 @@ public:
 	
 };
 
-int main(int argc, char *argv[])
-{
-	int arry[] = {
-		-2, 0, 3, -5, 2, -1
-	};
-	Merger<int> merger;
-	SegmentTree<int> tr( arry, ( sizeof( arry ) / sizeof( *arry ) ), &merger );
-	cout << tr.query( 0, 2 ) << endl;
-	cout << tr.query( 2, 5 ) << endl;
-	cout << tr.query( 0, 5 ) << endl;
-	
-	tr.set( 1, 1 );
-	cout << tr.query( 0, 2 ) << endl;
-	return 0;
-}
+class NumArray {
+private:
+	SegmentTree<int> *m_ptr_tree; 
+public:
+    NumArray(vector<int>& nums) {
+		if( nums.size() > 0 ) {
+			int arry[ nums.size() ];
+			for( int i = 0; i < nums.size(); ++i )
+				arry[ i ] = nums[ i ];
+				
+			m_ptr_tree = new SegmentTree<int>( arry, nums.size(), new Merger<int>() );			
+		}
+    }
+    void update(int i, int val) {
+		if( i >= i ){
+			m_ptr_tree->set( i, val );
+		} 
+    }
+    
+    int sumRange(int i, int j) {
+		return m_ptr_tree->query( i, j );
+    }
+};
